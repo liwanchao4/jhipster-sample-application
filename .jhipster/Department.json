@@ -4,26 +4,23 @@
         {
             "fieldName": "departmentName",
             "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldValidateRules": ["required"]
         }
     ],
     "relationships": [
         {
             "relationshipType": "one-to-one",
-            "relationshipName": "location",
             "otherEntityName": "location",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "department"
+            "otherEntityRelationshipName": "department",
+            "relationshipName": "location",
+            "ownerSide": true
         },
         {
             "relationshipType": "one-to-many",
-            "javadoc": "A relationship",
-            "relationshipName": "employee",
             "otherEntityName": "employee",
-            "otherEntityRelationshipName": "department"
+            "otherEntityRelationshipName": "department",
+            "javadoc": "A relationship",
+            "relationshipName": "employee"
         }
     ],
     "changelogDate": "20181018023035",
@@ -34,5 +31,7 @@
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,
     "clientRootFolder": "",
-    "applications": "*"
+    "applications": "*",
+    "readOnly": false,
+    "embedded": false
 }

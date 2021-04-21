@@ -13,14 +13,14 @@
     "relationships": [
         {
             "relationshipType": "many-to-many",
-            "relationshipName": "job",
             "otherEntityName": "job",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "task"
+            "otherEntityRelationshipName": "task",
+            "relationshipName": "job",
+            "ownerSide": false
         }
     ],
     "changelogDate": "20181018023036",
-    "javadoc": "Task entity.\n@author The JHipster team.",
+    "javadoc": "Task entity.\\n@author The JHipster team.",
     "entityTableName": "task",
     "dto": "no",
     "pagination": "no",
@@ -28,5 +28,7 @@
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,
     "clientRootFolder": "",
-    "applications": "*"
+    "applications": "*",
+    "readOnly": false,
+    "embedded": false
 }

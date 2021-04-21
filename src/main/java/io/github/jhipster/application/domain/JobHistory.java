@@ -1,24 +1,21 @@
 package io.github.jhipster.application.domain;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.github.jhipster.application.domain.enumeration.Language;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Objects;
-
-import io.github.jhipster.application.domain.enumeration.Language;
+import javax.persistence.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * A JobHistory.
  */
 @Entity
 @Table(name = "job_history")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Document(indexName = "jobhistory")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@org.springframework.data.elasticsearch.annotations.Document(indexName = "jobhistory")
 public class JobHistory implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,16 +34,22 @@ public class JobHistory implements Serializable {
     @Column(name = "language")
     private Language language;
 
-    @OneToOne    @JoinColumn(unique = true)
+    @JsonIgnoreProperties(value = { "tasks", "employee" }, allowSetters = true)
+    @OneToOne
+    @JoinColumn(unique = true)
     private Job job;
 
-    @OneToOne    @JoinColumn(unique = true)
+    @JsonIgnoreProperties(value = { "location", "employees" }, allowSetters = true)
+    @OneToOne
+    @JoinColumn(unique = true)
     private Department department;
 
-    @OneToOne    @JoinColumn(unique = true)
+    @JsonIgnoreProperties(value = { "jobs", "manager", "department" }, allowSetters = true)
+    @OneToOne
+    @JoinColumn(unique = true)
     private Employee employee;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
     }
@@ -55,8 +58,13 @@ public class JobHistory implements Serializable {
         this.id = id;
     }
 
+    public JobHistory id(Long id) {
+        this.id = id;
+        return this;
+    }
+
     public Instant getStartDate() {
-        return startDate;
+        return this.startDate;
     }
 
     public JobHistory startDate(Instant startDate) {
@@ -69,7 +77,7 @@ public class JobHistory implements Serializable {
     }
 
     public Instant getEndDate() {
-        return endDate;
+        return this.endDate;
     }
 
     public JobHistory endDate(Instant endDate) {
@@ -82,7 +90,7 @@ public class JobHistory implements Serializable {
     }
 
     public Language getLanguage() {
-        return language;
+        return this.language;
     }
 
     public JobHistory language(Language language) {
@@ -95,11 +103,11 @@ public class JobHistory implements Serializable {
     }
 
     public Job getJob() {
-        return job;
+        return this.job;
     }
 
     public JobHistory job(Job job) {
-        this.job = job;
+        this.setJob(job);
         return this;
     }
 
@@ -108,11 +116,11 @@ public class JobHistory implements Serializable {
     }
 
     public Department getDepartment() {
-        return department;
+        return this.department;
     }
 
     public JobHistory department(Department department) {
-        this.department = department;
+        this.setDepartment(department);
         return this;
     }
 
@@ -121,39 +129,38 @@ public class JobHistory implements Serializable {
     }
 
     public Employee getEmployee() {
-        return employee;
+        return this.employee;
     }
 
     public JobHistory employee(Employee employee) {
-        this.employee = employee;
+        this.setEmployee(employee);
         return this;
     }
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof JobHistory)) {
             return false;
         }
-        JobHistory jobHistory = (JobHistory) o;
-        if (jobHistory.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), jobHistory.getId());
+        return id != null && id.equals(((JobHistory) o).id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        return getClass().hashCode();
     }
 
+    // prettier-ignore
     @Override
     public String toString() {
         return "JobHistory{" +

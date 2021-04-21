@@ -1,52 +1,57 @@
 package io.github.jhipster.application.service;
 
 import io.github.jhipster.application.domain.Task;
-
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Service Interface for managing Task.
+ * Service Interface for managing {@link Task}.
  */
 public interface TaskService {
-
     /**
      * Save a task.
      *
-     * @param task the entity to save
-     * @return the persisted entity
+     * @param task the entity to save.
+     * @return the persisted entity.
      */
     Task save(Task task);
 
     /**
+     * Partially updates a task.
+     *
+     * @param task the entity to update partially.
+     * @return the persisted entity.
+     */
+    Optional<Task> partialUpdate(Task task);
+
+    /**
      * Get all the tasks.
      *
-     * @return the list of entities
+     * @return the list of entities.
      */
     List<Task> findAll();
-
 
     /**
      * Get the "id" task.
      *
-     * @param id the id of the entity
-     * @return the entity
+     * @param id the id of the entity.
+     * @return the entity.
      */
     Optional<Task> findOne(Long id);
 
     /**
      * Delete the "id" task.
      *
-     * @param id the id of the entity
+     * @param id the id of the entity.
      */
     void delete(Long id);
 
     /**
      * Search for the task corresponding to the query.
      *
-     * @param query the query of the search
-     * 
-     * @return the list of entities
+     * @param query the query of the search.
+     *
+     * @return the list of entities.
      */
     List<Task> search(String query);
 }

@@ -1,29 +1,15 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
 
-import { JhipsterSampleApplicationSharedModule } from 'app/shared';
-import {
-    CountryComponent,
-    CountryDetailComponent,
-    CountryUpdateComponent,
-    CountryDeletePopupComponent,
-    CountryDeleteDialogComponent,
-    countryRoute,
-    countryPopupRoute
-} from './';
-
-const ENTITY_STATES = [...countryRoute, ...countryPopupRoute];
+import { SharedModule } from 'app/shared/shared.module';
+import { CountryComponent } from './list/country.component';
+import { CountryDetailComponent } from './detail/country-detail.component';
+import { CountryUpdateComponent } from './update/country-update.component';
+import { CountryDeleteDialogComponent } from './delete/country-delete-dialog.component';
+import { CountryRoutingModule } from './route/country-routing.module';
 
 @NgModule({
-    imports: [JhipsterSampleApplicationSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
-        CountryComponent,
-        CountryDetailComponent,
-        CountryUpdateComponent,
-        CountryDeleteDialogComponent,
-        CountryDeletePopupComponent
-    ],
-    entryComponents: [CountryComponent, CountryUpdateComponent, CountryDeleteDialogComponent, CountryDeletePopupComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    imports: [SharedModule, CountryRoutingModule],
+    declarations: [CountryComponent, CountryDetailComponent, CountryUpdateComponent, CountryDeleteDialogComponent],
+    entryComponents: [CountryDeleteDialogComponent],
 })
-export class JhipsterSampleApplicationCountryModule {}
+export class CountryModule {}

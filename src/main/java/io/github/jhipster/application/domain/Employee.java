@@ -1,20 +1,16 @@
 package io.github.jhipster.application.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Objects;
+import javax.persistence.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * The Employee entity.
@@ -22,8 +18,8 @@ import java.util.Objects;
 @ApiModel(description = "The Employee entity.")
 @Entity
 @Table(name = "employee")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Document(indexName = "employee")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@org.springframework.data.elasticsearch.annotations.Document(indexName = "employee")
 public class Employee implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -57,18 +53,24 @@ public class Employee implements Serializable {
     @Column(name = "commission_pct")
     private Long commissionPct;
 
-    @ManyToOne
-    @JsonIgnoreProperties("employees")
-    private Department department;
-
     @OneToMany(mappedBy = "employee")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "tasks", "employee" }, allowSetters = true)
     private Set<Job> jobs = new HashSet<>();
+
     @ManyToOne
-    @JsonIgnoreProperties("")
+    @JsonIgnoreProperties(value = { "jobs", "manager", "department" }, allowSetters = true)
     private Employee manager;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    /**
+     * Another side of the same relationship
+     */
+    @ApiModelProperty(value = "Another side of the same relationship")
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "location", "employees" }, allowSetters = true)
+    private Department department;
+
+    // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
     }
@@ -77,8 +79,13 @@ public class Employee implements Serializable {
         this.id = id;
     }
 
+    public Employee id(Long id) {
+        this.id = id;
+        return this;
+    }
+
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
     public Employee firstName(String firstName) {
@@ -91,7 +98,7 @@ public class Employee implements Serializable {
     }
 
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
     public Employee lastName(String lastName) {
@@ -104,7 +111,7 @@ public class Employee implements Serializable {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public Employee email(String email) {
@@ -117,7 +124,7 @@ public class Employee implements Serializable {
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return this.phoneNumber;
     }
 
     public Employee phoneNumber(String phoneNumber) {
@@ -130,7 +137,7 @@ public class Employee implements Serializable {
     }
 
     public Instant getHireDate() {
-        return hireDate;
+        return this.hireDate;
     }
 
     public Employee hireDate(Instant hireDate) {
@@ -143,7 +150,7 @@ public class Employee implements Serializable {
     }
 
     public Long getSalary() {
-        return salary;
+        return this.salary;
     }
 
     public Employee salary(Long salary) {
@@ -156,7 +163,7 @@ public class Employee implements Serializable {
     }
 
     public Long getCommissionPct() {
-        return commissionPct;
+        return this.commissionPct;
     }
 
     public Employee commissionPct(Long commissionPct) {
@@ -168,25 +175,12 @@ public class Employee implements Serializable {
         this.commissionPct = commissionPct;
     }
 
-    public Department getDepartment() {
-        return department;
-    }
-
-    public Employee department(Department department) {
-        this.department = department;
-        return this;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
     public Set<Job> getJobs() {
-        return jobs;
+        return this.jobs;
     }
 
     public Employee jobs(Set<Job> jobs) {
-        this.jobs = jobs;
+        this.setJobs(jobs);
         return this;
     }
 
@@ -203,43 +197,61 @@ public class Employee implements Serializable {
     }
 
     public void setJobs(Set<Job> jobs) {
+        if (this.jobs != null) {
+            this.jobs.forEach(i -> i.setEmployee(null));
+        }
+        if (jobs != null) {
+            jobs.forEach(i -> i.setEmployee(this));
+        }
         this.jobs = jobs;
     }
 
     public Employee getManager() {
-        return manager;
+        return this.manager;
     }
 
     public Employee manager(Employee employee) {
-        this.manager = employee;
+        this.setManager(employee);
         return this;
     }
 
     public void setManager(Employee employee) {
         this.manager = employee;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+    public Department getDepartment() {
+        return this.department;
+    }
+
+    public Employee department(Department department) {
+        this.setDepartment(department);
+        return this;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Employee)) {
             return false;
         }
-        Employee employee = (Employee) o;
-        if (employee.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), employee.getId());
+        return id != null && id.equals(((Employee) o).id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        return getClass().hashCode();
     }
 
+    // prettier-ignore
     @Override
     public String toString() {
         return "Employee{" +

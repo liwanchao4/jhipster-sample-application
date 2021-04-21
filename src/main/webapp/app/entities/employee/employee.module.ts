@@ -1,29 +1,15 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
 
-import { JhipsterSampleApplicationSharedModule } from 'app/shared';
-import {
-    EmployeeComponent,
-    EmployeeDetailComponent,
-    EmployeeUpdateComponent,
-    EmployeeDeletePopupComponent,
-    EmployeeDeleteDialogComponent,
-    employeeRoute,
-    employeePopupRoute
-} from './';
-
-const ENTITY_STATES = [...employeeRoute, ...employeePopupRoute];
+import { SharedModule } from 'app/shared/shared.module';
+import { EmployeeComponent } from './list/employee.component';
+import { EmployeeDetailComponent } from './detail/employee-detail.component';
+import { EmployeeUpdateComponent } from './update/employee-update.component';
+import { EmployeeDeleteDialogComponent } from './delete/employee-delete-dialog.component';
+import { EmployeeRoutingModule } from './route/employee-routing.module';
 
 @NgModule({
-    imports: [JhipsterSampleApplicationSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
-        EmployeeComponent,
-        EmployeeDetailComponent,
-        EmployeeUpdateComponent,
-        EmployeeDeleteDialogComponent,
-        EmployeeDeletePopupComponent
-    ],
-    entryComponents: [EmployeeComponent, EmployeeUpdateComponent, EmployeeDeleteDialogComponent, EmployeeDeletePopupComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    imports: [SharedModule, EmployeeRoutingModule],
+    declarations: [EmployeeComponent, EmployeeDetailComponent, EmployeeUpdateComponent, EmployeeDeleteDialogComponent],
+    entryComponents: [EmployeeDeleteDialogComponent],
 })
-export class JhipsterSampleApplicationEmployeeModule {}
+export class EmployeeModule {}

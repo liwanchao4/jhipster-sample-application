@@ -1,23 +1,15 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
 
-import { JhipsterSampleApplicationSharedModule } from 'app/shared';
-import {
-    TaskComponent,
-    TaskDetailComponent,
-    TaskUpdateComponent,
-    TaskDeletePopupComponent,
-    TaskDeleteDialogComponent,
-    taskRoute,
-    taskPopupRoute
-} from './';
-
-const ENTITY_STATES = [...taskRoute, ...taskPopupRoute];
+import { SharedModule } from 'app/shared/shared.module';
+import { TaskComponent } from './list/task.component';
+import { TaskDetailComponent } from './detail/task-detail.component';
+import { TaskUpdateComponent } from './update/task-update.component';
+import { TaskDeleteDialogComponent } from './delete/task-delete-dialog.component';
+import { TaskRoutingModule } from './route/task-routing.module';
 
 @NgModule({
-    imports: [JhipsterSampleApplicationSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [TaskComponent, TaskDetailComponent, TaskUpdateComponent, TaskDeleteDialogComponent, TaskDeletePopupComponent],
-    entryComponents: [TaskComponent, TaskUpdateComponent, TaskDeleteDialogComponent, TaskDeletePopupComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    imports: [SharedModule, TaskRoutingModule],
+    declarations: [TaskComponent, TaskDetailComponent, TaskUpdateComponent, TaskDeleteDialogComponent],
+    entryComponents: [TaskDeleteDialogComponent],
 })
-export class JhipsterSampleApplicationTaskModule {}
+export class TaskModule {}

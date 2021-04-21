@@ -1,27 +1,27 @@
 package io.github.jhipster.application.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
-import io.github.jhipster.application.domain.Location;
-import io.github.jhipster.application.service.LocationService;
-import io.github.jhipster.application.web.rest.errors.BadRequestAlertException;
-import io.github.jhipster.application.web.rest.util.HeaderUtil;
-import io.github.jhipster.web.util.ResponseUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.StreamSupport;
-
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
+import io.github.jhipster.application.domain.Location;
+import io.github.jhipster.application.repository.LocationRepository;
+import io.github.jhipster.application.service.LocationService;
+import io.github.jhipster.application.web.rest.errors.BadRequestAlertException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.StreamSupport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.ResponseUtil;
+
 /**
- * REST controller for managing Location.
+ * REST controller for managing {@link io.github.jhipster.application.domain.Location}.
  */
 @RestController
 @RequestMapping("/api")
@@ -31,74 +31,126 @@ public class LocationResource {
 
     private static final String ENTITY_NAME = "location";
 
-    private LocationService locationService;
+    @Value("${jhipster.clientApp.name}")
+    private String applicationName;
 
-    public LocationResource(LocationService locationService) {
+    private final LocationService locationService;
+
+    private final LocationRepository locationRepository;
+
+    public LocationResource(LocationService locationService, LocationRepository locationRepository) {
         this.locationService = locationService;
+        this.locationRepository = locationRepository;
     }
 
     /**
-     * POST  /locations : Create a new location.
+     * {@code POST  /locations} : Create a new location.
      *
-     * @param location the location to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new location, or with status 400 (Bad Request) if the location has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @param location the location to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new location, or with status {@code 400 (Bad Request)} if the location has already an ID.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/locations")
-    @Timed
     public ResponseEntity<Location> createLocation(@RequestBody Location location) throws URISyntaxException {
         log.debug("REST request to save Location : {}", location);
         if (location.getId() != null) {
             throw new BadRequestAlertException("A new location cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Location result = locationService.save(location);
-        return ResponseEntity.created(new URI("/api/locations/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+        return ResponseEntity
+            .created(new URI("/api/locations/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
     /**
-     * PUT  /locations : Updates an existing location.
+     * {@code PUT  /locations/:id} : Updates an existing location.
      *
-     * @param location the location to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated location,
-     * or with status 400 (Bad Request) if the location is not valid,
-     * or with status 500 (Internal Server Error) if the location couldn't be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @param id the id of the location to save.
+     * @param location the location to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated location,
+     * or with status {@code 400 (Bad Request)} if the location is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the location couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/locations")
-    @Timed
-    public ResponseEntity<Location> updateLocation(@RequestBody Location location) throws URISyntaxException {
-        log.debug("REST request to update Location : {}", location);
+    @PutMapping("/locations/{id}")
+    public ResponseEntity<Location> updateLocation(
+        @PathVariable(value = "id", required = false) final Long id,
+        @RequestBody Location location
+    ) throws URISyntaxException {
+        log.debug("REST request to update Location : {}, {}", id, location);
         if (location.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        if (!Objects.equals(id, location.getId())) {
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+        }
+
+        if (!locationRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
         Location result = locationService.save(location);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, location.getId().toString()))
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, location.getId().toString()))
             .body(result);
     }
 
     /**
-     * GET  /locations : get all the locations.
+     * {@code PATCH  /locations/:id} : Partial updates given fields of an existing location, field will ignore if it is null
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of locations in body
+     * @param id the id of the location to save.
+     * @param location the location to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated location,
+     * or with status {@code 400 (Bad Request)} if the location is not valid,
+     * or with status {@code 404 (Not Found)} if the location is not found,
+     * or with status {@code 500 (Internal Server Error)} if the location couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PatchMapping(value = "/locations/{id}", consumes = "application/merge-patch+json")
+    public ResponseEntity<Location> partialUpdateLocation(
+        @PathVariable(value = "id", required = false) final Long id,
+        @RequestBody Location location
+    ) throws URISyntaxException {
+        log.debug("REST request to partial update Location partially : {}, {}", id, location);
+        if (location.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        if (!Objects.equals(id, location.getId())) {
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+        }
+
+        if (!locationRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        Optional<Location> result = locationService.partialUpdate(location);
+
+        return ResponseUtil.wrapOrNotFound(
+            result,
+            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, location.getId().toString())
+        );
+    }
+
+    /**
+     * {@code GET  /locations} : get all the locations.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of locations in body.
      */
     @GetMapping("/locations")
-    @Timed
     public List<Location> getAllLocations() {
         log.debug("REST request to get all Locations");
         return locationService.findAll();
     }
 
     /**
-     * GET  /locations/:id : get the "id" location.
+     * {@code GET  /locations/:id} : get the "id" location.
      *
-     * @param id the id of the location to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the location, or with status 404 (Not Found)
+     * @param id the id of the location to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the location, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/locations/{id}")
-    @Timed
     public ResponseEntity<Location> getLocation(@PathVariable Long id) {
         log.debug("REST request to get Location : {}", id);
         Optional<Location> location = locationService.findOne(id);
@@ -106,31 +158,31 @@ public class LocationResource {
     }
 
     /**
-     * DELETE  /locations/:id : delete the "id" location.
+     * {@code DELETE  /locations/:id} : delete the "id" location.
      *
-     * @param id the id of the location to delete
-     * @return the ResponseEntity with status 200 (OK)
+     * @param id the id of the location to delete.
+     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/locations/{id}")
-    @Timed
     public ResponseEntity<Void> deleteLocation(@PathVariable Long id) {
         log.debug("REST request to delete Location : {}", id);
         locationService.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+            .build();
     }
 
     /**
-     * SEARCH  /_search/locations?query=:query : search for the location corresponding
+     * {@code SEARCH  /_search/locations?query=:query} : search for the location corresponding
      * to the query.
      *
-     * @param query the query of the location search
-     * @return the result of the search
+     * @param query the query of the location search.
+     * @return the result of the search.
      */
     @GetMapping("/_search/locations")
-    @Timed
     public List<Location> searchLocations(@RequestParam String query) {
         log.debug("REST request to search Locations for query {}", query);
         return locationService.search(query);
     }
-
 }

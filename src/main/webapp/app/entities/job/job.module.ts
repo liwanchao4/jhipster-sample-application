@@ -1,23 +1,15 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
 
-import { JhipsterSampleApplicationSharedModule } from 'app/shared';
-import {
-    JobComponent,
-    JobDetailComponent,
-    JobUpdateComponent,
-    JobDeletePopupComponent,
-    JobDeleteDialogComponent,
-    jobRoute,
-    jobPopupRoute
-} from './';
-
-const ENTITY_STATES = [...jobRoute, ...jobPopupRoute];
+import { SharedModule } from 'app/shared/shared.module';
+import { JobComponent } from './list/job.component';
+import { JobDetailComponent } from './detail/job-detail.component';
+import { JobUpdateComponent } from './update/job-update.component';
+import { JobDeleteDialogComponent } from './delete/job-delete-dialog.component';
+import { JobRoutingModule } from './route/job-routing.module';
 
 @NgModule({
-    imports: [JhipsterSampleApplicationSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [JobComponent, JobDetailComponent, JobUpdateComponent, JobDeleteDialogComponent, JobDeletePopupComponent],
-    entryComponents: [JobComponent, JobUpdateComponent, JobDeleteDialogComponent, JobDeletePopupComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    imports: [SharedModule, JobRoutingModule],
+    declarations: [JobComponent, JobDetailComponent, JobUpdateComponent, JobDeleteDialogComponent],
+    entryComponents: [JobDeleteDialogComponent],
 })
-export class JhipsterSampleApplicationJobModule {}
+export class JobModule {}

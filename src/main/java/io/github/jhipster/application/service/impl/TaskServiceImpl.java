@@ -1,24 +1,22 @@
 package io.github.jhipster.application.service.impl;
 
-import io.github.jhipster.application.service.TaskService;
+import static org.elasticsearch.index.query.QueryBuilders.*;
+
 import io.github.jhipster.application.domain.Task;
 import io.github.jhipster.application.repository.TaskRepository;
 import io.github.jhipster.application.repository.search.TaskSearchRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import io.github.jhipster.application.service.TaskService;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing Task.
+ * Service Implementation for managing {@link Task}.
  */
 @Service
 @Transactional
@@ -26,21 +24,15 @@ public class TaskServiceImpl implements TaskService {
 
     private final Logger log = LoggerFactory.getLogger(TaskServiceImpl.class);
 
-    private TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
 
-    private TaskSearchRepository taskSearchRepository;
+    private final TaskSearchRepository taskSearchRepository;
 
     public TaskServiceImpl(TaskRepository taskRepository, TaskSearchRepository taskSearchRepository) {
         this.taskRepository = taskRepository;
         this.taskSearchRepository = taskSearchRepository;
     }
 
-    /**
-     * Save a task.
-     *
-     * @param task the entity to save
-     * @return the persisted entity
-     */
     @Override
     public Task save(Task task) {
         log.debug("Request to save Task : {}", task);
@@ -49,11 +41,34 @@ public class TaskServiceImpl implements TaskService {
         return result;
     }
 
-    /**
-     * Get all the tasks.
-     *
-     * @return the list of entities
-     */
+    @Override
+    public Optional<Task> partialUpdate(Task task) {
+        log.debug("Request to partially update Task : {}", task);
+
+        return taskRepository
+            .findById(task.getId())
+            .map(
+                existingTask -> {
+                    if (task.getTitle() != null) {
+                        existingTask.setTitle(task.getTitle());
+                    }
+                    if (task.getDescription() != null) {
+                        existingTask.setDescription(task.getDescription());
+                    }
+
+                    return existingTask;
+                }
+            )
+            .map(taskRepository::save)
+            .map(
+                savedTask -> {
+                    taskSearchRepository.save(savedTask);
+
+                    return savedTask;
+                }
+            );
+    }
+
     @Override
     @Transactional(readOnly = true)
     public List<Task> findAll() {
@@ -61,13 +76,6 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findAll();
     }
 
-
-    /**
-     * Get one task by id.
-     *
-     * @param id the id of the entity
-     * @return the entity
-     */
     @Override
     @Transactional(readOnly = true)
     public Optional<Task> findOne(Long id) {
@@ -75,11 +83,6 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findById(id);
     }
 
-    /**
-     * Delete the task by id.
-     *
-     * @param id the id of the entity
-     */
     @Override
     public void delete(Long id) {
         log.debug("Request to delete Task : {}", id);
@@ -87,18 +90,10 @@ public class TaskServiceImpl implements TaskService {
         taskSearchRepository.deleteById(id);
     }
 
-    /**
-     * Search for the task corresponding to the query.
-     *
-     * @param query the query of the search
-     * @return the list of entities
-     */
     @Override
     @Transactional(readOnly = true)
     public List<Task> search(String query) {
         log.debug("Request to search Tasks for query {}", query);
-        return StreamSupport
-            .stream(taskSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+        return StreamSupport.stream(taskSearchRepository.search(queryStringQuery(query)).spliterator(), false).collect(Collectors.toList());
     }
 }

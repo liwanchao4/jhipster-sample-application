@@ -1,29 +1,15 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
 
-import { JhipsterSampleApplicationSharedModule } from 'app/shared';
-import {
-    DepartmentComponent,
-    DepartmentDetailComponent,
-    DepartmentUpdateComponent,
-    DepartmentDeletePopupComponent,
-    DepartmentDeleteDialogComponent,
-    departmentRoute,
-    departmentPopupRoute
-} from './';
-
-const ENTITY_STATES = [...departmentRoute, ...departmentPopupRoute];
+import { SharedModule } from 'app/shared/shared.module';
+import { DepartmentComponent } from './list/department.component';
+import { DepartmentDetailComponent } from './detail/department-detail.component';
+import { DepartmentUpdateComponent } from './update/department-update.component';
+import { DepartmentDeleteDialogComponent } from './delete/department-delete-dialog.component';
+import { DepartmentRoutingModule } from './route/department-routing.module';
 
 @NgModule({
-    imports: [JhipsterSampleApplicationSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
-        DepartmentComponent,
-        DepartmentDetailComponent,
-        DepartmentUpdateComponent,
-        DepartmentDeleteDialogComponent,
-        DepartmentDeletePopupComponent
-    ],
-    entryComponents: [DepartmentComponent, DepartmentUpdateComponent, DepartmentDeleteDialogComponent, DepartmentDeletePopupComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    imports: [SharedModule, DepartmentRoutingModule],
+    declarations: [DepartmentComponent, DepartmentDetailComponent, DepartmentUpdateComponent, DepartmentDeleteDialogComponent],
+    entryComponents: [DepartmentDeleteDialogComponent],
 })
-export class JhipsterSampleApplicationDepartmentModule {}
+export class DepartmentModule {}

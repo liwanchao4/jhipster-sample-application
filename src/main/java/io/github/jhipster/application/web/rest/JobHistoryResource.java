@@ -1,32 +1,33 @@
 package io.github.jhipster.application.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
+import static org.elasticsearch.index.query.QueryBuilders.*;
+
 import io.github.jhipster.application.domain.JobHistory;
+import io.github.jhipster.application.repository.JobHistoryRepository;
 import io.github.jhipster.application.service.JobHistoryService;
 import io.github.jhipster.application.web.rest.errors.BadRequestAlertException;
-import io.github.jhipster.application.web.rest.util.HeaderUtil;
-import io.github.jhipster.application.web.rest.util.PaginationUtil;
-import io.github.jhipster.web.util.ResponseUtil;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.PaginationUtil;
+import tech.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing JobHistory.
+ * REST controller for managing {@link io.github.jhipster.application.domain.JobHistory}.
  */
 @RestController
 @RequestMapping("/api")
@@ -36,77 +37,129 @@ public class JobHistoryResource {
 
     private static final String ENTITY_NAME = "jobHistory";
 
-    private JobHistoryService jobHistoryService;
+    @Value("${jhipster.clientApp.name}")
+    private String applicationName;
 
-    public JobHistoryResource(JobHistoryService jobHistoryService) {
+    private final JobHistoryService jobHistoryService;
+
+    private final JobHistoryRepository jobHistoryRepository;
+
+    public JobHistoryResource(JobHistoryService jobHistoryService, JobHistoryRepository jobHistoryRepository) {
         this.jobHistoryService = jobHistoryService;
+        this.jobHistoryRepository = jobHistoryRepository;
     }
 
     /**
-     * POST  /job-histories : Create a new jobHistory.
+     * {@code POST  /job-histories} : Create a new jobHistory.
      *
-     * @param jobHistory the jobHistory to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new jobHistory, or with status 400 (Bad Request) if the jobHistory has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @param jobHistory the jobHistory to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new jobHistory, or with status {@code 400 (Bad Request)} if the jobHistory has already an ID.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/job-histories")
-    @Timed
     public ResponseEntity<JobHistory> createJobHistory(@RequestBody JobHistory jobHistory) throws URISyntaxException {
         log.debug("REST request to save JobHistory : {}", jobHistory);
         if (jobHistory.getId() != null) {
             throw new BadRequestAlertException("A new jobHistory cannot already have an ID", ENTITY_NAME, "idexists");
         }
         JobHistory result = jobHistoryService.save(jobHistory);
-        return ResponseEntity.created(new URI("/api/job-histories/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+        return ResponseEntity
+            .created(new URI("/api/job-histories/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
     /**
-     * PUT  /job-histories : Updates an existing jobHistory.
+     * {@code PUT  /job-histories/:id} : Updates an existing jobHistory.
      *
-     * @param jobHistory the jobHistory to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated jobHistory,
-     * or with status 400 (Bad Request) if the jobHistory is not valid,
-     * or with status 500 (Internal Server Error) if the jobHistory couldn't be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @param id the id of the jobHistory to save.
+     * @param jobHistory the jobHistory to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated jobHistory,
+     * or with status {@code 400 (Bad Request)} if the jobHistory is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the jobHistory couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/job-histories")
-    @Timed
-    public ResponseEntity<JobHistory> updateJobHistory(@RequestBody JobHistory jobHistory) throws URISyntaxException {
-        log.debug("REST request to update JobHistory : {}", jobHistory);
+    @PutMapping("/job-histories/{id}")
+    public ResponseEntity<JobHistory> updateJobHistory(
+        @PathVariable(value = "id", required = false) final Long id,
+        @RequestBody JobHistory jobHistory
+    ) throws URISyntaxException {
+        log.debug("REST request to update JobHistory : {}, {}", id, jobHistory);
         if (jobHistory.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        if (!Objects.equals(id, jobHistory.getId())) {
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+        }
+
+        if (!jobHistoryRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
         JobHistory result = jobHistoryService.save(jobHistory);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, jobHistory.getId().toString()))
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, jobHistory.getId().toString()))
             .body(result);
     }
 
     /**
-     * GET  /job-histories : get all the jobHistories.
+     * {@code PATCH  /job-histories/:id} : Partial updates given fields of an existing jobHistory, field will ignore if it is null
      *
-     * @param pageable the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of jobHistories in body
+     * @param id the id of the jobHistory to save.
+     * @param jobHistory the jobHistory to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated jobHistory,
+     * or with status {@code 400 (Bad Request)} if the jobHistory is not valid,
+     * or with status {@code 404 (Not Found)} if the jobHistory is not found,
+     * or with status {@code 500 (Internal Server Error)} if the jobHistory couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @GetMapping("/job-histories")
-    @Timed
-    public ResponseEntity<List<JobHistory>> getAllJobHistories(Pageable pageable) {
-        log.debug("REST request to get a page of JobHistories");
-        Page<JobHistory> page = jobHistoryService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/job-histories");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    @PatchMapping(value = "/job-histories/{id}", consumes = "application/merge-patch+json")
+    public ResponseEntity<JobHistory> partialUpdateJobHistory(
+        @PathVariable(value = "id", required = false) final Long id,
+        @RequestBody JobHistory jobHistory
+    ) throws URISyntaxException {
+        log.debug("REST request to partial update JobHistory partially : {}, {}", id, jobHistory);
+        if (jobHistory.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        if (!Objects.equals(id, jobHistory.getId())) {
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+        }
+
+        if (!jobHistoryRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        Optional<JobHistory> result = jobHistoryService.partialUpdate(jobHistory);
+
+        return ResponseUtil.wrapOrNotFound(
+            result,
+            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, jobHistory.getId().toString())
+        );
     }
 
     /**
-     * GET  /job-histories/:id : get the "id" jobHistory.
+     * {@code GET  /job-histories} : get all the jobHistories.
      *
-     * @param id the id of the jobHistory to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the jobHistory, or with status 404 (Not Found)
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of jobHistories in body.
+     */
+    @GetMapping("/job-histories")
+    public ResponseEntity<List<JobHistory>> getAllJobHistories(Pageable pageable) {
+        log.debug("REST request to get a page of JobHistories");
+        Page<JobHistory> page = jobHistoryService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /job-histories/:id} : get the "id" jobHistory.
+     *
+     * @param id the id of the jobHistory to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the jobHistory, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/job-histories/{id}")
-    @Timed
     public ResponseEntity<JobHistory> getJobHistory(@PathVariable Long id) {
         log.debug("REST request to get JobHistory : {}", id);
         Optional<JobHistory> jobHistory = jobHistoryService.findOne(id);
@@ -114,34 +167,34 @@ public class JobHistoryResource {
     }
 
     /**
-     * DELETE  /job-histories/:id : delete the "id" jobHistory.
+     * {@code DELETE  /job-histories/:id} : delete the "id" jobHistory.
      *
-     * @param id the id of the jobHistory to delete
-     * @return the ResponseEntity with status 200 (OK)
+     * @param id the id of the jobHistory to delete.
+     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/job-histories/{id}")
-    @Timed
     public ResponseEntity<Void> deleteJobHistory(@PathVariable Long id) {
         log.debug("REST request to delete JobHistory : {}", id);
         jobHistoryService.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+            .build();
     }
 
     /**
-     * SEARCH  /_search/job-histories?query=:query : search for the jobHistory corresponding
+     * {@code SEARCH  /_search/job-histories?query=:query} : search for the jobHistory corresponding
      * to the query.
      *
-     * @param query the query of the jobHistory search
-     * @param pageable the pagination information
-     * @return the result of the search
+     * @param query the query of the jobHistory search.
+     * @param pageable the pagination information.
+     * @return the result of the search.
      */
     @GetMapping("/_search/job-histories")
-    @Timed
     public ResponseEntity<List<JobHistory>> searchJobHistories(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of JobHistories for query {}", query);
         Page<JobHistory> page = jobHistoryService.search(query, pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/job-histories");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
-
 }

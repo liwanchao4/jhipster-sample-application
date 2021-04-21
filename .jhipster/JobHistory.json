@@ -18,27 +18,24 @@
     "relationships": [
         {
             "relationshipType": "one-to-one",
-            "relationshipName": "job",
             "otherEntityName": "job",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "jobHistory"
+            "otherEntityRelationshipName": "jobHistory",
+            "relationshipName": "job",
+            "ownerSide": true
         },
         {
             "relationshipType": "one-to-one",
-            "relationshipName": "department",
             "otherEntityName": "department",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "jobHistory"
+            "otherEntityRelationshipName": "jobHistory",
+            "relationshipName": "department",
+            "ownerSide": true
         },
         {
             "relationshipType": "one-to-one",
-            "relationshipName": "employee",
             "otherEntityName": "employee",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "jobHistory"
+            "otherEntityRelationshipName": "jobHistory",
+            "relationshipName": "employee",
+            "ownerSide": true
         }
     ],
     "changelogDate": "20181018023039",
@@ -49,5 +46,7 @@
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,
     "clientRootFolder": "",
-    "applications": "*"
+    "applications": "*",
+    "readOnly": false,
+    "embedded": false
 }

@@ -1,24 +1,22 @@
 package io.github.jhipster.application.service.impl;
 
-import io.github.jhipster.application.service.RegionService;
+import static org.elasticsearch.index.query.QueryBuilders.*;
+
 import io.github.jhipster.application.domain.Region;
 import io.github.jhipster.application.repository.RegionRepository;
 import io.github.jhipster.application.repository.search.RegionSearchRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import io.github.jhipster.application.service.RegionService;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing Region.
+ * Service Implementation for managing {@link Region}.
  */
 @Service
 @Transactional
@@ -26,21 +24,15 @@ public class RegionServiceImpl implements RegionService {
 
     private final Logger log = LoggerFactory.getLogger(RegionServiceImpl.class);
 
-    private RegionRepository regionRepository;
+    private final RegionRepository regionRepository;
 
-    private RegionSearchRepository regionSearchRepository;
+    private final RegionSearchRepository regionSearchRepository;
 
     public RegionServiceImpl(RegionRepository regionRepository, RegionSearchRepository regionSearchRepository) {
         this.regionRepository = regionRepository;
         this.regionSearchRepository = regionSearchRepository;
     }
 
-    /**
-     * Save a region.
-     *
-     * @param region the entity to save
-     * @return the persisted entity
-     */
     @Override
     public Region save(Region region) {
         log.debug("Request to save Region : {}", region);
@@ -49,11 +41,31 @@ public class RegionServiceImpl implements RegionService {
         return result;
     }
 
-    /**
-     * Get all the regions.
-     *
-     * @return the list of entities
-     */
+    @Override
+    public Optional<Region> partialUpdate(Region region) {
+        log.debug("Request to partially update Region : {}", region);
+
+        return regionRepository
+            .findById(region.getId())
+            .map(
+                existingRegion -> {
+                    if (region.getRegionName() != null) {
+                        existingRegion.setRegionName(region.getRegionName());
+                    }
+
+                    return existingRegion;
+                }
+            )
+            .map(regionRepository::save)
+            .map(
+                savedRegion -> {
+                    regionSearchRepository.save(savedRegion);
+
+                    return savedRegion;
+                }
+            );
+    }
+
     @Override
     @Transactional(readOnly = true)
     public List<Region> findAll() {
@@ -61,13 +73,6 @@ public class RegionServiceImpl implements RegionService {
         return regionRepository.findAll();
     }
 
-
-    /**
-     * Get one region by id.
-     *
-     * @param id the id of the entity
-     * @return the entity
-     */
     @Override
     @Transactional(readOnly = true)
     public Optional<Region> findOne(Long id) {
@@ -75,11 +80,6 @@ public class RegionServiceImpl implements RegionService {
         return regionRepository.findById(id);
     }
 
-    /**
-     * Delete the region by id.
-     *
-     * @param id the id of the entity
-     */
     @Override
     public void delete(Long id) {
         log.debug("Request to delete Region : {}", id);
@@ -87,12 +87,6 @@ public class RegionServiceImpl implements RegionService {
         regionSearchRepository.deleteById(id);
     }
 
-    /**
-     * Search for the region corresponding to the query.
-     *
-     * @param query the query of the search
-     * @return the list of entities
-     */
     @Override
     @Transactional(readOnly = true)
     public List<Region> search(String query) {

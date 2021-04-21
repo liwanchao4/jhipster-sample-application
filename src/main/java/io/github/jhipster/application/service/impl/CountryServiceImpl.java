@@ -1,24 +1,22 @@
 package io.github.jhipster.application.service.impl;
 
-import io.github.jhipster.application.service.CountryService;
+import static org.elasticsearch.index.query.QueryBuilders.*;
+
 import io.github.jhipster.application.domain.Country;
 import io.github.jhipster.application.repository.CountryRepository;
 import io.github.jhipster.application.repository.search.CountrySearchRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import io.github.jhipster.application.service.CountryService;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing Country.
+ * Service Implementation for managing {@link Country}.
  */
 @Service
 @Transactional
@@ -26,21 +24,15 @@ public class CountryServiceImpl implements CountryService {
 
     private final Logger log = LoggerFactory.getLogger(CountryServiceImpl.class);
 
-    private CountryRepository countryRepository;
+    private final CountryRepository countryRepository;
 
-    private CountrySearchRepository countrySearchRepository;
+    private final CountrySearchRepository countrySearchRepository;
 
     public CountryServiceImpl(CountryRepository countryRepository, CountrySearchRepository countrySearchRepository) {
         this.countryRepository = countryRepository;
         this.countrySearchRepository = countrySearchRepository;
     }
 
-    /**
-     * Save a country.
-     *
-     * @param country the entity to save
-     * @return the persisted entity
-     */
     @Override
     public Country save(Country country) {
         log.debug("Request to save Country : {}", country);
@@ -49,11 +41,31 @@ public class CountryServiceImpl implements CountryService {
         return result;
     }
 
-    /**
-     * Get all the countries.
-     *
-     * @return the list of entities
-     */
+    @Override
+    public Optional<Country> partialUpdate(Country country) {
+        log.debug("Request to partially update Country : {}", country);
+
+        return countryRepository
+            .findById(country.getId())
+            .map(
+                existingCountry -> {
+                    if (country.getCountryName() != null) {
+                        existingCountry.setCountryName(country.getCountryName());
+                    }
+
+                    return existingCountry;
+                }
+            )
+            .map(countryRepository::save)
+            .map(
+                savedCountry -> {
+                    countrySearchRepository.save(savedCountry);
+
+                    return savedCountry;
+                }
+            );
+    }
+
     @Override
     @Transactional(readOnly = true)
     public List<Country> findAll() {
@@ -61,13 +73,6 @@ public class CountryServiceImpl implements CountryService {
         return countryRepository.findAll();
     }
 
-
-    /**
-     * Get one country by id.
-     *
-     * @param id the id of the entity
-     * @return the entity
-     */
     @Override
     @Transactional(readOnly = true)
     public Optional<Country> findOne(Long id) {
@@ -75,11 +80,6 @@ public class CountryServiceImpl implements CountryService {
         return countryRepository.findById(id);
     }
 
-    /**
-     * Delete the country by id.
-     *
-     * @param id the id of the entity
-     */
     @Override
     public void delete(Long id) {
         log.debug("Request to delete Country : {}", id);
@@ -87,12 +87,6 @@ public class CountryServiceImpl implements CountryService {
         countrySearchRepository.deleteById(id);
     }
 
-    /**
-     * Search for the country corresponding to the query.
-     *
-     * @param query the query of the search
-     * @return the list of entities
-     */
     @Override
     @Transactional(readOnly = true)
     public List<Country> search(String query) {

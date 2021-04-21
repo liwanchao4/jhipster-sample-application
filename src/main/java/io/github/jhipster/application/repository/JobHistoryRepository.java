@@ -4,12 +4,9 @@ import io.github.jhipster.application.domain.JobHistory;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
-
 /**
- * Spring Data  repository for the JobHistory entity.
+ * Spring Data SQL repository for the JobHistory entity.
  */
 @SuppressWarnings("unused")
 @Repository
-public interface JobHistoryRepository extends JpaRepository<JobHistory, Long> {
-
-}
+public interface JobHistoryRepository extends JpaRepository<JobHistory, Long> {}
