@@ -1,14 +1,12 @@
 package io.github.jhipster.application.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
+import java.io.Serializable;
+import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
-import java.io.Serializable;
-import java.util.Objects;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * not an ignored comment
@@ -16,8 +14,8 @@ import java.util.Objects;
 @ApiModel(description = "not an ignored comment")
 @Entity
 @Table(name = "location")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Document(indexName = "location")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@org.springframework.data.elasticsearch.annotations.Document(indexName = "location")
 public class Location implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,10 +36,12 @@ public class Location implements Serializable {
     @Column(name = "state_province")
     private String stateProvince;
 
-    @OneToOne    @JoinColumn(unique = true)
+    @JsonIgnoreProperties(value = { "region" }, allowSetters = true)
+    @OneToOne
+    @JoinColumn(unique = true)
     private Country country;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
     }
@@ -50,8 +50,13 @@ public class Location implements Serializable {
         this.id = id;
     }
 
+    public Location id(Long id) {
+        this.id = id;
+        return this;
+    }
+
     public String getStreetAddress() {
-        return streetAddress;
+        return this.streetAddress;
     }
 
     public Location streetAddress(String streetAddress) {
@@ -64,7 +69,7 @@ public class Location implements Serializable {
     }
 
     public String getPostalCode() {
-        return postalCode;
+        return this.postalCode;
     }
 
     public Location postalCode(String postalCode) {
@@ -77,7 +82,7 @@ public class Location implements Serializable {
     }
 
     public String getCity() {
-        return city;
+        return this.city;
     }
 
     public Location city(String city) {
@@ -90,7 +95,7 @@ public class Location implements Serializable {
     }
 
     public String getStateProvince() {
-        return stateProvince;
+        return this.stateProvince;
     }
 
     public Location stateProvince(String stateProvince) {
@@ -103,39 +108,38 @@ public class Location implements Serializable {
     }
 
     public Country getCountry() {
-        return country;
+        return this.country;
     }
 
     public Location country(Country country) {
-        this.country = country;
+        this.setCountry(country);
         return this;
     }
 
     public void setCountry(Country country) {
         this.country = country;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Location)) {
             return false;
         }
-        Location location = (Location) o;
-        if (location.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), location.getId());
+        return id != null && id.equals(((Location) o).id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        return getClass().hashCode();
     }
 
+    // prettier-ignore
     @Override
     public String toString() {
         return "Location{" +

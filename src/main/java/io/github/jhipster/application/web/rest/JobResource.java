@@ -1,46 +1,51 @@
 package io.github.jhipster.application.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
+import static org.elasticsearch.index.query.QueryBuilders.*;
+
 import io.github.jhipster.application.domain.Job;
 import io.github.jhipster.application.repository.JobRepository;
 import io.github.jhipster.application.repository.search.JobSearchRepository;
 import io.github.jhipster.application.web.rest.errors.BadRequestAlertException;
-import io.github.jhipster.application.web.rest.util.HeaderUtil;
-import io.github.jhipster.application.web.rest.util.PaginationUtil;
-import io.github.jhipster.web.util.ResponseUtil;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.PaginationUtil;
+import tech.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing Job.
+ * REST controller for managing {@link io.github.jhipster.application.domain.Job}.
  */
 @RestController
 @RequestMapping("/api")
+@Transactional
 public class JobResource {
 
     private final Logger log = LoggerFactory.getLogger(JobResource.class);
 
     private static final String ENTITY_NAME = "job";
 
-    private JobRepository jobRepository;
+    @Value("${jhipster.clientApp.name}")
+    private String applicationName;
 
-    private JobSearchRepository jobSearchRepository;
+    private final JobRepository jobRepository;
+
+    private final JobSearchRepository jobSearchRepository;
 
     public JobResource(JobRepository jobRepository, JobSearchRepository jobSearchRepository) {
         this.jobRepository = jobRepository;
@@ -48,14 +53,13 @@ public class JobResource {
     }
 
     /**
-     * POST  /jobs : Create a new job.
+     * {@code POST  /jobs} : Create a new job.
      *
-     * @param job the job to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new job, or with status 400 (Bad Request) if the job has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @param job the job to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new job, or with status {@code 400 (Bad Request)} if the job has already an ID.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/jobs")
-    @Timed
     public ResponseEntity<Job> createJob(@RequestBody Job job) throws URISyntaxException {
         log.debug("REST request to save Job : {}", job);
         if (job.getId() != null) {
@@ -63,44 +67,115 @@ public class JobResource {
         }
         Job result = jobRepository.save(job);
         jobSearchRepository.save(result);
-        return ResponseEntity.created(new URI("/api/jobs/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+        return ResponseEntity
+            .created(new URI("/api/jobs/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
     /**
-     * PUT  /jobs : Updates an existing job.
+     * {@code PUT  /jobs/:id} : Updates an existing job.
      *
-     * @param job the job to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated job,
-     * or with status 400 (Bad Request) if the job is not valid,
-     * or with status 500 (Internal Server Error) if the job couldn't be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @param id the id of the job to save.
+     * @param job the job to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated job,
+     * or with status {@code 400 (Bad Request)} if the job is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the job couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/jobs")
-    @Timed
-    public ResponseEntity<Job> updateJob(@RequestBody Job job) throws URISyntaxException {
-        log.debug("REST request to update Job : {}", job);
+    @PutMapping("/jobs/{id}")
+    public ResponseEntity<Job> updateJob(@PathVariable(value = "id", required = false) final Long id, @RequestBody Job job)
+        throws URISyntaxException {
+        log.debug("REST request to update Job : {}, {}", id, job);
         if (job.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        if (!Objects.equals(id, job.getId())) {
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+        }
+
+        if (!jobRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
         Job result = jobRepository.save(job);
         jobSearchRepository.save(result);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, job.getId().toString()))
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, job.getId().toString()))
             .body(result);
     }
 
     /**
-     * GET  /jobs : get all the jobs.
+     * {@code PATCH  /jobs/:id} : Partial updates given fields of an existing job, field will ignore if it is null
      *
-     * @param pageable the pagination information
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many)
-     * @return the ResponseEntity with status 200 (OK) and the list of jobs in body
+     * @param id the id of the job to save.
+     * @param job the job to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated job,
+     * or with status {@code 400 (Bad Request)} if the job is not valid,
+     * or with status {@code 404 (Not Found)} if the job is not found,
+     * or with status {@code 500 (Internal Server Error)} if the job couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PatchMapping(value = "/jobs/{id}", consumes = "application/merge-patch+json")
+    public ResponseEntity<Job> partialUpdateJob(@PathVariable(value = "id", required = false) final Long id, @RequestBody Job job)
+        throws URISyntaxException {
+        log.debug("REST request to partial update Job partially : {}, {}", id, job);
+        if (job.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        if (!Objects.equals(id, job.getId())) {
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+        }
+
+        if (!jobRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        Optional<Job> result = jobRepository
+            .findById(job.getId())
+            .map(
+                existingJob -> {
+                    if (job.getJobTitle() != null) {
+                        existingJob.setJobTitle(job.getJobTitle());
+                    }
+                    if (job.getMinSalary() != null) {
+                        existingJob.setMinSalary(job.getMinSalary());
+                    }
+                    if (job.getMaxSalary() != null) {
+                        existingJob.setMaxSalary(job.getMaxSalary());
+                    }
+
+                    return existingJob;
+                }
+            )
+            .map(jobRepository::save)
+            .map(
+                savedJob -> {
+                    jobSearchRepository.save(savedJob);
+
+                    return savedJob;
+                }
+            );
+
+        return ResponseUtil.wrapOrNotFound(
+            result,
+            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, job.getId().toString())
+        );
+    }
+
+    /**
+     * {@code GET  /jobs} : get all the jobs.
+     *
+     * @param pageable the pagination information.
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of jobs in body.
      */
     @GetMapping("/jobs")
-    @Timed
-    public ResponseEntity<List<Job>> getAllJobs(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public ResponseEntity<List<Job>> getAllJobs(
+        Pageable pageable,
+        @RequestParam(required = false, defaultValue = "false") boolean eagerload
+    ) {
         log.debug("REST request to get a page of Jobs");
         Page<Job> page;
         if (eagerload) {
@@ -108,18 +183,17 @@ public class JobResource {
         } else {
             page = jobRepository.findAll(pageable);
         }
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, String.format("/api/jobs?eagerload=%b", eagerload));
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
-     * GET  /jobs/:id : get the "id" job.
+     * {@code GET  /jobs/:id} : get the "id" job.
      *
-     * @param id the id of the job to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the job, or with status 404 (Not Found)
+     * @param id the id of the job to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the job, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/jobs/{id}")
-    @Timed
     public ResponseEntity<Job> getJob(@PathVariable Long id) {
         log.debug("REST request to get Job : {}", id);
         Optional<Job> job = jobRepository.findOneWithEagerRelationships(id);
@@ -127,36 +201,35 @@ public class JobResource {
     }
 
     /**
-     * DELETE  /jobs/:id : delete the "id" job.
+     * {@code DELETE  /jobs/:id} : delete the "id" job.
      *
-     * @param id the id of the job to delete
-     * @return the ResponseEntity with status 200 (OK)
+     * @param id the id of the job to delete.
+     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/jobs/{id}")
-    @Timed
     public ResponseEntity<Void> deleteJob(@PathVariable Long id) {
         log.debug("REST request to delete Job : {}", id);
-
         jobRepository.deleteById(id);
         jobSearchRepository.deleteById(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+            .build();
     }
 
     /**
-     * SEARCH  /_search/jobs?query=:query : search for the job corresponding
+     * {@code SEARCH  /_search/jobs?query=:query} : search for the job corresponding
      * to the query.
      *
-     * @param query the query of the job search
-     * @param pageable the pagination information
-     * @return the result of the search
+     * @param query the query of the job search.
+     * @param pageable the pagination information.
+     * @return the result of the search.
      */
     @GetMapping("/_search/jobs")
-    @Timed
     public ResponseEntity<List<Job>> searchJobs(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of Jobs for query {}", query);
         Page<Job> page = jobSearchRepository.search(queryStringQuery(query), pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/jobs");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
-
 }

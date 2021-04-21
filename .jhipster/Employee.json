@@ -3,8 +3,8 @@
     "fields": [
         {
             "fieldName": "firstName",
-            "javadoc": "The firstname attribute.",
-            "fieldType": "String"
+            "fieldType": "String",
+            "javadoc": "The firstname attribute."
         },
         {
             "fieldName": "lastName",
@@ -33,22 +33,23 @@
     ],
     "relationships": [
         {
-            "relationshipName": "department",
-            "otherEntityName": "department",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
-        },
-        {
             "relationshipType": "one-to-many",
-            "relationshipName": "job",
             "otherEntityName": "job",
-            "otherEntityRelationshipName": "employee"
+            "otherEntityRelationshipName": "employee",
+            "relationshipName": "job"
         },
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "manager",
             "otherEntityName": "employee",
-            "otherEntityField": "id"
+            "otherEntityRelationshipName": "employee",
+            "relationshipName": "manager"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "department",
+            "otherEntityRelationshipName": "employee",
+            "javadoc": "Another side of the same relationship",
+            "relationshipName": "department"
         }
     ],
     "changelogDate": "20181018023037",
@@ -60,5 +61,7 @@
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,
     "clientRootFolder": "",
-    "applications": "*"
+    "applications": "*",
+    "readOnly": false,
+    "embedded": false
 }

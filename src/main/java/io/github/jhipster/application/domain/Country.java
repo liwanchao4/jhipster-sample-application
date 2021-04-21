@@ -1,21 +1,18 @@
 package io.github.jhipster.application.domain;
 
+import java.io.Serializable;
+import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
-import java.io.Serializable;
-import java.util.Objects;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * A Country.
  */
 @Entity
 @Table(name = "country")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Document(indexName = "country")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@org.springframework.data.elasticsearch.annotations.Document(indexName = "country")
 public class Country implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,10 +24,11 @@ public class Country implements Serializable {
     @Column(name = "country_name")
     private String countryName;
 
-    @OneToOne    @JoinColumn(unique = true)
+    @OneToOne
+    @JoinColumn(unique = true)
     private Region region;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
     }
@@ -39,8 +37,13 @@ public class Country implements Serializable {
         this.id = id;
     }
 
+    public Country id(Long id) {
+        this.id = id;
+        return this;
+    }
+
     public String getCountryName() {
-        return countryName;
+        return this.countryName;
     }
 
     public Country countryName(String countryName) {
@@ -53,39 +56,38 @@ public class Country implements Serializable {
     }
 
     public Region getRegion() {
-        return region;
+        return this.region;
     }
 
     public Country region(Region region) {
-        this.region = region;
+        this.setRegion(region);
         return this;
     }
 
     public void setRegion(Region region) {
         this.region = region;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Country)) {
             return false;
         }
-        Country country = (Country) o;
-        if (country.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), country.getId());
+        return id != null && id.equals(((Country) o).id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        return getClass().hashCode();
     }
 
+    // prettier-ignore
     @Override
     public String toString() {
         return "Country{" +

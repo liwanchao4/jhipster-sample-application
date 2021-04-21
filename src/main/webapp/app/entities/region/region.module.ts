@@ -1,23 +1,15 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
 
-import { JhipsterSampleApplicationSharedModule } from 'app/shared';
-import {
-    RegionComponent,
-    RegionDetailComponent,
-    RegionUpdateComponent,
-    RegionDeletePopupComponent,
-    RegionDeleteDialogComponent,
-    regionRoute,
-    regionPopupRoute
-} from './';
-
-const ENTITY_STATES = [...regionRoute, ...regionPopupRoute];
+import { SharedModule } from 'app/shared/shared.module';
+import { RegionComponent } from './list/region.component';
+import { RegionDetailComponent } from './detail/region-detail.component';
+import { RegionUpdateComponent } from './update/region-update.component';
+import { RegionDeleteDialogComponent } from './delete/region-delete-dialog.component';
+import { RegionRoutingModule } from './route/region-routing.module';
 
 @NgModule({
-    imports: [JhipsterSampleApplicationSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [RegionComponent, RegionDetailComponent, RegionUpdateComponent, RegionDeleteDialogComponent, RegionDeletePopupComponent],
-    entryComponents: [RegionComponent, RegionUpdateComponent, RegionDeleteDialogComponent, RegionDeletePopupComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    imports: [SharedModule, RegionRoutingModule],
+    declarations: [RegionComponent, RegionDetailComponent, RegionUpdateComponent, RegionDeleteDialogComponent],
+    entryComponents: [RegionDeleteDialogComponent],
 })
-export class JhipsterSampleApplicationRegionModule {}
+export class RegionModule {}

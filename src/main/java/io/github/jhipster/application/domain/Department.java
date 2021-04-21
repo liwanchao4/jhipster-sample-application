@@ -1,26 +1,23 @@
 package io.github.jhipster.application.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-import javax.validation.constraints.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Objects;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * A Department.
  */
 @Entity
 @Table(name = "department")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Document(indexName = "department")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@org.springframework.data.elasticsearch.annotations.Document(indexName = "department")
 public class Department implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -33,7 +30,9 @@ public class Department implements Serializable {
     @Column(name = "department_name", nullable = false)
     private String departmentName;
 
-    @OneToOne    @JoinColumn(unique = true)
+    @JsonIgnoreProperties(value = { "country" }, allowSetters = true)
+    @OneToOne
+    @JoinColumn(unique = true)
     private Location location;
 
     /**
@@ -41,9 +40,11 @@ public class Department implements Serializable {
      */
     @ApiModelProperty(value = "A relationship")
     @OneToMany(mappedBy = "department")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "jobs", "manager", "department" }, allowSetters = true)
     private Set<Employee> employees = new HashSet<>();
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+
+    // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
     }
@@ -52,8 +53,13 @@ public class Department implements Serializable {
         this.id = id;
     }
 
+    public Department id(Long id) {
+        this.id = id;
+        return this;
+    }
+
     public String getDepartmentName() {
-        return departmentName;
+        return this.departmentName;
     }
 
     public Department departmentName(String departmentName) {
@@ -66,11 +72,11 @@ public class Department implements Serializable {
     }
 
     public Location getLocation() {
-        return location;
+        return this.location;
     }
 
     public Department location(Location location) {
-        this.location = location;
+        this.setLocation(location);
         return this;
     }
 
@@ -79,11 +85,11 @@ public class Department implements Serializable {
     }
 
     public Set<Employee> getEmployees() {
-        return employees;
+        return this.employees;
     }
 
     public Department employees(Set<Employee> employees) {
-        this.employees = employees;
+        this.setEmployees(employees);
         return this;
     }
 
@@ -100,30 +106,35 @@ public class Department implements Serializable {
     }
 
     public void setEmployees(Set<Employee> employees) {
+        if (this.employees != null) {
+            this.employees.forEach(i -> i.setDepartment(null));
+        }
+        if (employees != null) {
+            employees.forEach(i -> i.setDepartment(this));
+        }
         this.employees = employees;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Department)) {
             return false;
         }
-        Department department = (Department) o;
-        if (department.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), department.getId());
+        return id != null && id.equals(((Department) o).id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        return getClass().hashCode();
     }
 
+    // prettier-ignore
     @Override
     public String toString() {
         return "Department{" +

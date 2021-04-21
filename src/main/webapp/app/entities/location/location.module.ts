@@ -1,29 +1,15 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
 
-import { JhipsterSampleApplicationSharedModule } from 'app/shared';
-import {
-    LocationComponent,
-    LocationDetailComponent,
-    LocationUpdateComponent,
-    LocationDeletePopupComponent,
-    LocationDeleteDialogComponent,
-    locationRoute,
-    locationPopupRoute
-} from './';
-
-const ENTITY_STATES = [...locationRoute, ...locationPopupRoute];
+import { SharedModule } from 'app/shared/shared.module';
+import { LocationComponent } from './list/location.component';
+import { LocationDetailComponent } from './detail/location-detail.component';
+import { LocationUpdateComponent } from './update/location-update.component';
+import { LocationDeleteDialogComponent } from './delete/location-delete-dialog.component';
+import { LocationRoutingModule } from './route/location-routing.module';
 
 @NgModule({
-    imports: [JhipsterSampleApplicationSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [
-        LocationComponent,
-        LocationDetailComponent,
-        LocationUpdateComponent,
-        LocationDeleteDialogComponent,
-        LocationDeletePopupComponent
-    ],
-    entryComponents: [LocationComponent, LocationUpdateComponent, LocationDeleteDialogComponent, LocationDeletePopupComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    imports: [SharedModule, LocationRoutingModule],
+    declarations: [LocationComponent, LocationDetailComponent, LocationUpdateComponent, LocationDeleteDialogComponent],
+    entryComponents: [LocationDeleteDialogComponent],
 })
-export class JhipsterSampleApplicationLocationModule {}
+export class LocationModule {}

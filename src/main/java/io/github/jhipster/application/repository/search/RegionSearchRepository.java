@@ -4,7 +4,6 @@ import io.github.jhipster.application.domain.Region;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 /**
- * Spring Data Elasticsearch repository for the Region entity.
+ * Spring Data Elasticsearch repository for the {@link Region} entity.
  */
-public interface RegionSearchRepository extends ElasticsearchRepository<Region, Long> {
-}
+public interface RegionSearchRepository extends ElasticsearchRepository<Region, Long> {}

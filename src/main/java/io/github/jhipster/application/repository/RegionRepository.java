@@ -4,12 +4,9 @@ import io.github.jhipster.application.domain.Region;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
-
 /**
- * Spring Data  repository for the Region entity.
+ * Spring Data SQL repository for the Region entity.
  */
 @SuppressWarnings("unused")
 @Repository
-public interface RegionRepository extends JpaRepository<Region, Long> {
-
-}
+public interface RegionRepository extends JpaRepository<Region, Long> {}

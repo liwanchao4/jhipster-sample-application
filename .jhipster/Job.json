@@ -16,18 +16,18 @@
     ],
     "relationships": [
         {
-            "relationshipName": "employee",
-            "otherEntityName": "employee",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
-        },
-        {
             "relationshipType": "many-to-many",
+            "otherEntityName": "task",
             "otherEntityRelationshipName": "job",
             "relationshipName": "task",
-            "otherEntityName": "task",
             "otherEntityField": "title",
             "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "employee",
+            "otherEntityRelationshipName": "job",
+            "relationshipName": "employee"
         }
     ],
     "changelogDate": "20181018023038",
@@ -38,5 +38,7 @@
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,
     "clientRootFolder": "",
-    "applications": "*"
+    "applications": "*",
+    "readOnly": false,
+    "embedded": false
 }

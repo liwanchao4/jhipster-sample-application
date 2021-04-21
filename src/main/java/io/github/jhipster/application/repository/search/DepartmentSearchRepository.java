@@ -4,7 +4,6 @@ import io.github.jhipster.application.domain.Department;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 /**
- * Spring Data Elasticsearch repository for the Department entity.
+ * Spring Data Elasticsearch repository for the {@link Department} entity.
  */
-public interface DepartmentSearchRepository extends ElasticsearchRepository<Department, Long> {
-}
+public interface DepartmentSearchRepository extends ElasticsearchRepository<Department, Long> {}

@@ -9,11 +9,10 @@
     "relationships": [
         {
             "relationshipType": "one-to-one",
-            "relationshipName": "region",
             "otherEntityName": "region",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "country"
+            "otherEntityRelationshipName": "country",
+            "relationshipName": "region",
+            "ownerSide": true
         }
     ],
     "changelogDate": "20181018023033",
@@ -24,5 +23,7 @@
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,
     "clientRootFolder": "",
-    "applications": "*"
+    "applications": "*",
+    "readOnly": false,
+    "embedded": false
 }
