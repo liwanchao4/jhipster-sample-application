@@ -1,0 +1,1626 @@
+
+/**
+* 层组划分数据表
+*/
+entity FAjcl01{ 
+    ny String,	/**年月*/
+    qk String,	/**区块*/
+    xh Integer,	/**序号*/
+    jh String,	/**井号*/
+    jx String, /**井型*/
+    bxhb Double, /**补心海拔|m*/
+    kzrq LocalDate,	/**开钻时间|年.月.日*/
+    wzrq LocalDate,	/**完钻时间|年.月.日*/
+    wzjs Double, /**完钻井深|m*/
+    wzcw String, /**完钻层位*/
+    djsdFc1 Double, /**底部深度_地质分层_fc1*/
+    djsdFc2 Double, /**底部深度_地质分层_fc2*/
+    djsdFc3 Double, /**底部深度_地质分层_fc3*/
+    djsdFc4 Double, /**底部深度_地质分层_fc4*/
+    djsdFc5 Double, /**底部深度_地质分层_fc5*/
+    djsdFc6 Double, /**底部深度_地质分层_fc6*/
+    djsdFc7 Double, /**底部深度_地质分层_fc7*/
+    djsdFc8 Double, /**底部深度_地质分层_fc8*/
+    djsdFc9 Double, /**底部深度_地质分层_fc9*/
+    djsdFc10 Double, /**底部深度_地质分层_fc10*/
+    bz String,	/**备注*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+* 原油高压物性分析数据表
+*/
+entity FAjcl02{
+    ny String,	/**年月*/
+    qk String,	/**区块*/
+    jh String,	/**井号*/
+    cw String,	/**层位*/
+    skjd Double,	/**射孔井段|m*/
+    qysd  String,	/**取样深度|m*/
+    qysmz Integer,	/**取样数目支|支*/
+    yy Double,	/**油压|mpa*/
+    ty Double,	/**套压|mpa*/
+    ly Double,	/**流压|mpa*/
+    jy Double,	/**静压|mpa*/
+    qyd	 Double, /**取样点|mpa*/
+    ycwd Double,	/**油层温度|℃*/
+    bhyl Double,	/**饱和压力|mpa*/
+    qybQ Double,	/**气油比|m3/m3*/
+    qybY Double,	/**气油比|m3/t*/
+    qtpjrjxs Double,	/**气体平均溶解系数|m3/m3·mpa-1*/
+    trqxdmd Double,	/**天然气相对密度*/
+    tjxs1 Double,	/**体积系数_地层压力*/
+    tjxs2 Double,	/**体积系数_饱和压力*/
+    ysxs Double,	/**压缩系数|10-3mpa-1*/
+    ssl	 Double, /**收缩率|%*/
+    yymdDctj Double,	/**原油密度_地层条件|t/m3*/
+    yymdDmtj Double,	/**原油密度_地面条件|t/m3*/
+    ndYcyl Double,	/**粘度_油层压力|mpa·s*/
+    ndBhyl Double,	/**粘度_饱和压力|mpa·s*/
+    ndDmtj Double,	/**粘度_地面条件|mpa·s*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+* 地面原油分析数据表
+*/
+entity FAjcl03{
+    ny String, /**年月*/
+    qk String, /**区块*/
+    jsdy String, /**计算单元*/
+    jh String, /**井号*/
+    cw String, /**层位*/
+    qysd Double, /**取样深度m*/
+    qyrq LocalDate, /**取样日期|年.月.日*/
+    fxrq LocalDate, /**分析日期|年.月.日*/
+    yymd20 Double, /**原油密度t/m^3（20℃）*/
+    yymd Double, /**原油密度t/m^3（℃）*/
+    yynd4 Double, /**原油粘度（50℃）*/
+    yynd1 Double, /**原油粘度（30℃）*/
+    yynd2 Double, /**原油粘度（35℃）*/
+    yynd3 Double, /**原油粘度（40℃）*/
+    hl Double, /**含硫%*/
+    hl1 Double, /**含蜡%*/
+    jz Double, /**胶质%*/
+    lqz Double, /**沥青质%*/
+    hs Double, /**含水%*/
+    ngd Double, /**凝固点℃*/
+    cld Double, /**初馏点℃*/
+    lf1 Double, /**馏分%|<150°c*/
+    lf2 Double, /**馏分%|150°c*/
+    lf3 Double, /**馏分%|170°c*/
+    lf4 Double, /**馏分%|210°c*/
+    lf5 Double, /**馏分%|230°c*/
+    lf6 Double, /**馏分%|250°c*/
+    lf7 Double, /**馏分%|270°c*/
+    lf8 Double, /**馏分%|300°c*/
+    lf9 Double, /**馏分%|>300°c*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+* 天然气分析数据表
+*/
+entity FAjcl04{
+    ny String, /**年月*/
+    qk String, /**区块*/
+    jh String, /**井号*/
+    cw String, /**层位*/
+    qysd Double, /**取样深度|m*/
+    qyrq LocalDate, /**取样日期(年.月.日)*/
+    trqxdmd Double, /**天然气相对密度*/
+    jw Double, /**天然气组分%|甲烷*/
+    yw Double, /**天然气组分%|乙烷*/
+    bw Double, /**天然气组分%|丙烷*/
+    ydw Double, /**天然气组分%|异丁烷*/
+    zdw Double, /**天然气组分%|正丁烷*/
+    yww Double, /**天然气组分%|异戊烷*/
+    zww Double, /**天然气组分%|正戊烷*/
+    jwys Double, /**天然气组分%|己烷以上*/
+    h Double, /**天然气组分%|氦*/
+    d Double, /**天然气组分%|氮*/
+    eyht Double, /**天然气组分%|二氧化碳*/
+    lhq Double, /**天然气组分%|硫化氢*/
+    ljwd Double, /**临界温度℃*/
+    ljyl Double, /**临界压力mpa*/
+    bz String, /**备注*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+* 天然气分析数据表
+*/
+entity FAjcl05{
+    ny String, /**年月*/
+    qk String, /**区块*/
+    jh String, /**井号*/
+    cw String, /**层位*/
+    qysd Double, /**取样深度|m*/
+    qyrq LocalDate, /**取样日期(年.月.日)*/
+    trqxdmd Double, /**天然气相对密度*/
+    jw Double, /**天然气组分%|甲烷*/
+    yw Double, /**天然气组分%|乙烷*/
+    bw Double, /**天然气组分%|丙烷*/
+    ydw Double, /**天然气组分%|异丁烷*/
+    zdw Double, /**天然气组分%|正丁烷*/
+    yww Double, /**天然气组分%|异戊烷*/
+    zww Double, /**天然气组分%|正戊烷*/
+    jwys Double, /**天然气组分%|己烷以上*/
+    h Double, /**天然气组分%|氦*/
+    d Double, /**天然气组分%|氮*/
+    eyht Double, /**天然气组分%|二氧化碳*/
+    lhq Double, /**天然气组分%|硫化氢*/
+    ljwd Double, /**临界温度℃*/
+    ljyl Double, /**临界压力mpa*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+* 试油(气)成果表
+*/
+entity FAjcl06{
+    ny String, /**年月*/
+    qk String, /**区块*/
+    jh String, /**井号*/
+    cw String, /**层位*/
+    qysd Double, /**取样深度|m*/
+    qyrq LocalDate, /**取样日期(年.月.日)*/
+    trqxdmd Double, /**天然气相对密度*/
+    jw Double, /**天然气组分%|甲烷*/
+    yw Double, /**天然气组分%|乙烷*/
+    bw Double, /**天然气组分%|丙烷*/
+    ydw Double, /**天然气组分%|异丁烷*/
+    zdw Double, /**天然气组分%|正丁烷*/
+    yww Double, /**天然气组分%|异戊烷*/
+    zww Double, /**天然气组分%|正戊烷*/
+    jwys Double, /**天然气组分%|己烷以上*/
+    h Double, /**天然气组分%|氦*/
+    d Double, /**天然气组分%|氮*/
+    eyht Double, /**天然气组分%|二氧化碳*/
+    lhq Double, /**天然气组分%|硫化氢*/
+    ljwd Double, /**临界温度℃*/
+    ljyl Double, /**临界压力mpa*/
+    bz String, /**备注*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+* F_AJCL07/试采(投产)数据表
+*/
+entity FAjcl07{
+    ny String, /**年月*/
+    qk String, /**区块*/
+    jh String, /**井号*/
+    cw String, /**层位*/
+    scch String, /**试采层号*/
+    scjd Double, /**试采井段,m*/
+    hd Double, /**厚度m*/
+    cs Integer, /**层数*/
+    tccqRq LocalDate, /**投产初期产量_日期,年.月.日*/
+    tccqGzzdfs String, /**投产初期产量_工作制度_方式*/
+    tccqCshcc String, /**投产初期产量_工作制度_抽深或冲程*/
+    tccqYy Double, /**投产初期产量_压力mpa_油压*/
+    tccqTy Double, /**投产初期产量_压力mpa_套压*/
+    tccqJy Double, /**投产初期产量_压力mpa_静压*/
+    tccqLy Double, /**投产初期产量_压力mpa_流压*/
+    tccqRcyl Double, /**投产初期产量_日产量油t*/
+    tccqRcql Double, /**投产初期产量_日产量气m3*/
+    tccqRcsl Double, /**投产初期产量_日产量水m3*/
+    tccqQyb Double, /**投产初期产量_气油比m3/m3*/
+    mqGzzdfs Double, /**目前产量_工作制度_方式*/
+    mqCshcc Double, /**目前产量_工作制度_抽深或冲程*/
+    mqYy Double, /**目前产量_压力_油压*/
+    mqTy Double, /**目前产量_压力_套压*/
+    mqJy Double, /**目前产量_压力_静压*/
+    mqLy Double, /**目前产量_压力_流压*/
+    mqRcyl Double, /**目前产量_日产量_油t*/
+    mqRcql Double, /**目前产量_日产量_气m3*/
+    mqRcsl Double, /**目前产量_日产量_水m3*/
+    mqQyb Double, /**目前产量_气油比m3/m3*/
+    ljscts Double, /**累产量_生产天数天*/
+    ljcyl Double, /**累产量_油t*/
+    ljcql Double, /**累产量_气104m3*/
+    ljcsl Double, /**累产量_水m3*/
+    ljpjrcy Double, /**累产量_平均日产油t*/
+    bz String, /**备注*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+* F_AJCL08/勘探开发工作量统计表
+*/
+entity FAjcl08 {
+    ny String, /**年月*/
+    qk String, /**区块*/
+    dzSwMj Double, /**地震_三维_面积,km2*/
+    dzEwCw String, /**地震_二维_测网,km×km*/
+    dzEwCd Double, /**地震_二维_长度,km*/
+    mjnJs Integer, /**钻井_油气面积内_井数  口*/
+    mjnJycjh String, /**钻井_油气面积内_见油（气）层井号*/
+    mjnHyljh String, /**钻井_油气面积内_获油（气）流井号*/
+    mjnHgyyljh String, /**钻井_油气面积内_获工业油（气）流井号*/
+    mjwYyjs Integer, /**钻井_含油面积外_有油（气）井口*/
+    mjwWyjs Integer, /**钻井_含油面积外_无油（气）井口*/
+    qxJs Integer, /**取心_井数,口*/
+    qxJc Double, /**取心_进尺,m*/
+    qxXc Double, /**取心_心长,m*/
+    qxShl Double, /**取心_收获率,%*/
+    qxYbysyx Double, /**取心_油斑以上岩心,m*/
+    syjs Integer, /**试油_试油（气）井数,口*/
+    sycs Integer, /**试油_试油（气）层数,层*/
+    sydsCs Integer, /**试油_单试|层数*/
+    sydsJs Integer, /**试油_单试|井数*/
+    syhsCs Integer, /**试油_合试|层数*/
+    syhsJs Integer, /**试油_合试|井数*/
+    syshCs Integer, /**试油_酸化|层数*/
+    syshJs Integer, /**试油_酸化|井数*/
+    syylCs Integer, /**试油_压裂|层数*/
+    syylJs Integer, /**试油_压裂|井数*/
+    scjs Integer, /**试采投产_试采井口*/
+    tcjs Integer, /**试采投产_投产井口*/
+    zsjs Integer, /**试采投产_注水进口*/
+    bz String, /**备注*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+* F_AJCL09/分析化验工作量统计表
+*/
+entity FAjcl09 {
+    ny String, /**年月*/
+    qk String, /**区块*/
+    cw String, /**层位*/
+    fw String, /**范围*/
+    cgKxd Integer, /**常规分析_孔隙度*/
+    cgStl Integer, /**常规分析_渗透率*/
+    cgCs Integer, /**常规分析_垂渗*/
+    cgBhd Integer, /**常规分析_饱和度*/
+    cgLdsx Integer, /**常规分析_粒度筛选*/
+    cgTsyhl Integer, /**常规分析_碳酸盐含量*/
+    cgLyhl Integer, /**常规分析_氯盐含量*/
+    cgZkw Integer, /**常规分析_重矿物*/
+    cgYsmd Integer, /**常规分析_岩石密度*/
+    tsMgyl Integer, /**特殊分析_毛管压力*/
+    tsDzj Integer, /**特殊分析_大直径*/
+    tsYdsy Integer, /**特殊分析_岩电试验*/
+    tsRsx Integer, /**特殊分析_润湿性*/
+    tsMgx Integer, /**特殊分析_敏感性*/
+    tsFykxd Integer, /**特殊分析_覆压孔隙度*/
+    tsXdstl Integer, /**特殊分析_相对渗透率*/
+    wgYgbp Integer, /**微观分析_荧光薄片*/
+    wgPgbp Integer, /**微观分析_偏光薄片*/
+    wgSmdj Integer, /**微观分析_扫描电镜*/
+    wgXys Integer, /**微观分析X衍射*/
+    wgZtbp Integer, /**微观分析_铸体薄片*/
+    wgTxfx Integer, /**微观分析_图像分析*/
+    ltYy Integer, /**流体分析_原油*/
+    ltTrq Integer, /**流体分析_天然气*/
+    ltDcs Integer, /**流体分析_地层水*/
+    ltGywx Integer, /**流体分析_高压物性*/
+    bz String, /**备注*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+* F_AJCL10/钻井基础数据表
+*/
+entity FAjcl10 {
+    ny String, /**年月*/
+    qk String, /**区块*/
+    fw String, /**范围*/
+    xh Integer, /**序号*/
+    jh String, /**井号*/
+    jb String, /**井别*/
+    jkzzbx Double, /**井口坐标X*/
+    jkhzby Double, /**井口坐标_y*/
+    dmhb Double, /**地面海拔m*/
+    bxg Double, /**补心高度m*/
+    sjjs Double, /**井深m_设计(垂)*/
+    wzjs Double, /**井深m_完钻(斜)*/
+    wzcw Double, /**完钻层位*/
+    kzrq LocalDate, /**钻井时间年.月.日|开钻*/
+    wzrq LocalDate, /**钻井时间年.月.日|完钻*/
+    wjrq LocalDate, /**钻井时间年.月.日|完井*/
+    btCc Double, /**套管程序_表套_尺寸mm*/
+    btXs Double, /**套管程序_表套_下深 m*/
+    jtCc Double, /**套管程序_技套_尺寸mm*/
+    jtXs Double, /**套管程序_技套_下深 m*/
+    jtSnfg Double, /**套管程序_技套_水泥返高m*/
+    jtGjzl String, /**套管程序_技套_固井质量*/
+    ytCc Double, /**套管程序_油套_尺寸,mm*/
+    ytXs Double, /**套管程序_油套_下深,m*/
+    ytRgjd Double, /**油套固井质量_人工井底,m*/
+    ytSnfg Double, /**油套固井质量_水泥返高,m*/
+    ytGjzl Double, /**油套固井质量_固井质量*/
+    zdjxJs Double, /**最大井斜_井深,m*/
+    zdjxFw Double, /**最大井斜_方位,。*/
+    zdjxXd Double, /**最大井斜_斜度,。*/
+    zspwy Double, /**总水平位移m*/
+    zfw Double, /**总方位,。*/
+    zjqxJc Double, /**钻井取心_进尺m*/
+    zjqxPjshl Double, /**钻井取心_平均收获率%*/
+    jbqxZs Double, /**井壁取心,颗_总数*/
+    jbqxHy Double, /**井壁取心,颗_含油*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+* F_AJCL11/钻井取心及岩心分析情况统计表
+*/
+entity FAjcl11 {
+    ny String, /**年月*/
+    qk String, /**区块*/
+    jh String, /**井号*/
+    cw String, /**层位*/
+    qxTc Integer, /**钻井取心情况_筒次*/
+    qxJd String, /**钻井取心情况_井段m*/
+    qxJc Double, /**钻井取心情况_进尺m*/
+    qxXc Double, /**钻井取心情况_心长m*/
+    qxShl Double, /**钻井取心情况_收获率%*/
+    qxFhy Double, /**钻井取心情况_含油岩心m_富含油*/
+    qxYq Double, /**钻井取心情况_含油岩心m_油浸*/
+    qxYb Double, /**钻井取心情况_含油岩心m_油斑*/
+    qxYj Double, /**钻井取心情况_含油岩心m_油迹*/
+    qxYg Double, /**钻井取心情况_含油岩心m_荧光*/
+    qxZc Double, /**钻井取心情况_含油岩心m_总长*/
+    kxd Integer, /**孔隙度*/
+    kqstl Integer, /**空气渗透率*/
+    cs Integer, /**垂涎*/
+    ysbhd Integer, /**油水饱和度*/
+    pgbp Integer, /**偏光薄片*/
+    ldsx Integer, /**粒度筛选*/
+    tsyyhl Integer, /**碳酸盐岩含量*/
+    lyhl Integer, /**氯盐含量*/
+    zkw Integer, /**重矿物*/
+    ysmd Integer, /**岩石密度*/
+    mgyl Integer, /**毛管压力*/
+    ydsy Integer, /**岩电试验*/
+    ysrsx Integer, /**岩石润湿性*/
+    mgx Integer, /**敏感性*/
+    fyk Integer, /**覆压孔/渗*/
+    xdstl Integer, /**相对渗透率*/
+    ylzjh Integer, /**阳离子交换*/
+    ygbp Integer, /**荧光薄片*/
+    smdj Integer, /**扫描电镜*/
+    xys Integer, /**x衍射*/
+    ztbp Integer, /**铸体薄片*/
+    sfsbhd Integer, /**束缚水饱和度*/
+    qzjk Integer, /**全直径孔/渗透*/
+    qt Integer, /**其他*/
+    bz String, /**备注*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+* F_AJCL12/有效厚度岩性、含油（气）性、物性界限基础数据表
+*/
+entity FAjcl12 {
+    xh Integer, /**序号*/
+    ny String, /**年月*/
+    qk String, /**区块*/
+    jh String, /**井号*/
+    cw String, /**层位*/
+    djsd1 Double, /**井段_顶深*/
+    djsd2 Double, /**井段_底深*/
+    hd Double, /**厚度m*/
+    yx String, /**岩性*/
+    hyjb String, /**含油级别*/
+    kxdYs Double, /**孔隙度_样数*/
+    kxdHw1 Double, /**孔隙度_范围%：最小值*/
+    kxdFw2 Double, /**孔隙度_范围%：最大值*/
+    kxdPjz Double, /**孔隙度_平均值%*/
+    stlYs Integer, /**渗透率_样数 块*/
+    stlFw1 Double, /**渗透率_范围 md：最小值*/
+    stlFw2 Double, /**渗透率_范围 md：最大值*/
+    stlPjz Double, /**渗透率_平均值 md*/
+    fs String, /**方式*/
+    rcyl Double, /**初期日产量_油t*/
+    rcql Double, /**初期日产量_气m3*/
+    rcsl Double, /**初期日产量_水m3*/
+    ljcyl Double, /**累计产量_油t*/
+    ljcql Double, /**累计产量_气m3*/
+    ljcsl Double, /**累计产量_水m3*/
+    syjl String, /**结论*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+* F_AJCL13/有效厚度电性界限基础数据表
+*/
+entity FAjcl13 {
+    ny String, /**年月*/
+    qk String, /**区块*/
+    fw String, /**范围*/
+    xh Integer, /**序号*/
+    jh String, /**井号*/
+    cw String, /**层位*/
+    cxh String, /**层号*/
+    djsd1 Double, /**试油井段m:顶界深度*/
+    djsd2 Double, /**试油井段m:底界深度*/
+    hd Double, /**厚度 m*/
+    qzjd String, /**取值井段 m*/
+    dcsdzl Double, /**地层水电阻率,ω·m*/
+    sdzl Double, /**电阻率_视电阻率ω·m*/
+    scdzl Double, /**电阻率_水层电阻率ω·m*/
+    dzzdl Double, /**电阻率_电阻增大率*/
+    sbsc Double, /**声波_声波时差,μs/ft*/
+    sbkxd Double, /**声波_孔隙度,%*/
+    md Double, /**密度_密度g/cm3*/
+    mdkxd Double, /**密度_孔隙度%*/
+    zz Double, /**中子_中子*/
+    zzkxd Double, /**中子_孔隙度*/
+    fs String, /**方式*/
+    rcyl Double, /**初期日产量_油,t*/
+    rcql Double, /**初期日产量_气,m3*/
+    rcsl Double, /**初期日产量_水,m3*/
+    ljcyl Double, /**累计产量_油,t*/
+    ljcql Double, /**累计产量_气,m3*/
+    ljcsl Double, /**累计产量_水,m3*/
+    syjl String, /**结论*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+* F_AJCL14/岩心分析与测井解释孔隙度关系基础数据表
+*/
+entity FAjcl14 {
+    ny String, /**年月*/
+    qk String, /**区块*/
+    jh String, /**井号*/
+    cw String, /**层位*/
+    cdxh Integer, /**层点序号*/
+    ypgwjd Double, /**样品归位井段m*/
+    hd Double, /**厚度m*/
+    kxdYpsk Integer, /**岩心分析孔隙度_样品数块*/
+    kxdYpbh String, /**岩心分析孔隙度_选用样品编号*/
+    kxdFw1 Double, /**岩心分析孔隙度_范围%|最小值*/
+    kxdFw2 Double, /**岩心分析孔隙度_范围%|最大值*/
+    kxdPjz Double, /**岩心分析孔隙度_平均值%*/
+    cjzSbsc Double, /**测井值_声波时差μs/ft*/
+    cjzMd Double, /**测井值_密度g/cm3*/
+    cjzZz Double, /**测井值_中子%*/
+    cjkxd Double, /**测井孔隙度%*/
+    jdwc Double, /**误差分析_绝对误差%*/
+    xdwc Double, /**误差分析_相对误差%*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+* F_AJCL15/取心饱和度分析基础数据表
+*/
+entity FAjcl15 {
+    ny String, /**年月*/
+    qk String, /**区块*/
+    jh String, /**井号*/
+    cw String, /**层位*/
+    qxTc Integer, /**筒次*/
+    qxJd String, /**井段*/
+    qxJc Double, /**进尺m*/
+    qxXc Double, /**心长m*/
+    qxShl Double, /**收获率%*/
+    ypbh String, /**岩心饱和度分析_样品编号*/
+    gwsd Double, /**岩心饱和度分析_归位深度m*/
+    yx String, /**岩心饱和度分析_岩性*/
+    hyjb String, /**岩心饱和度分析_含油级别*/
+    hsbhd Double, /**岩心饱和度分析_含水饱和度%*/
+    jzz Double, /**校正_校正值%*/
+    jzHybhd Double, /**校正_含油饱和度%*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+* F_AJCL16/单井有效厚度测井解释成果表
+*/
+entity FAjcl16 {
+    ny String, /**年月*/
+    qk String, /**区块*/
+    bxhb Double, /**补心海拔m*/
+    cw String, /**层位*/
+    yqcz String, /**油（气）层组*/
+    ch Integer, /**层号*/
+    jh String, /**井号*/
+    jd1 Double, /**井段m*/
+    jd2 Double, /**井段m*/
+    hd Double, /**厚度m*/
+    sdzl Double, /**视电阻率ω·m*/
+    sbsc Double, /**声波时差μs/ft*/
+    zz Double, /**中子%*/
+    md Double, /**密度g/cm3*/
+    kxd Double, /**孔隙度%*/
+    kqstl Double, /**空气渗透率md*/
+    hybhd Double, /**含油饱和度%*/
+    jsjg String, /**解释结果*/
+    hyjbYx String, /**含油级别_岩心*/
+    hyjbYx1 String, /**含油级别_岩屑*/
+    rcyl Double, /**试油投产情况_油t*/
+    rcql Double, /**试油投产情况_气m3*/
+    rcsl Double, /**试油投产情况_水m3*/
+    syjl String, /**试油投产情况_结论*/
+    yxhdQzjd String, /**有效厚度确定_铅直井段m*/
+    yxhdQzhb String, /**有效厚度确定_铅直海拔m*/
+    yxhdHd Double, /**有效厚度确定_厚度m*/
+    yxhdJchd Double, /**有效厚度确定_夹层厚度m*/
+    yxhdYxhd Double, /**有效厚度确定_有效厚度m*/
+    yxhdZhjsjl String, /**有效厚度确定_综合解释结论*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+
+/**
+*F_AJCL17/类比法确定采收率基础数据表
+*/
+entity FAjcl17 {
+    ny String, /**年月*/
+    qkhyz String, /**区块或油藏*/
+    ssyt String, /**所属油田*/
+    cw String, /**层位*/
+    yclx String, /**油藏类型*/
+    ccyx String, /**储层岩性*/
+    cjlx String, /**储集类型*/
+    qdlx String, /**驱动类型*/
+    yczbms String, /**油藏中部埋深m*/
+    cchd String, /**储层厚度m*/
+    kxd Double, /**孔隙度%*/
+    stl Double, /**渗透率md*/
+    dcyl String, /**地层压力mpa*/
+    yymd String, /**原油密度t/m3*/
+    yyzd String, /**原油粘度mpa·s*/
+    qyb Double, /**气油比m3/t*/
+    yytjxs Double, /**原油体积系数*/
+    jwmd Double, /**井网密度口/km2*/
+    djcn String, /**单井产能t/d*/
+    qtcs String, /**其他参数*/
+    csl Double, /**采收率%*/
+    bz String, /**备注*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate/**审核时间*/
+}
+
+/**
+*F_AJCL18/产量预测表
+*/
+entity FAjcl18 {
+    ny String, /**年月*/
+    qk String, /**区块*/
+    cw String, /**层位*/
+    nd Integer, /**年度*/
+    cyjs Integer, /**采油井数 口*/
+    zsjs Integer, /**注水井数 口*/
+    pjdjrcyl Double, /**平均单井日产油量 t*/
+    pjdjrcql Double, /**平均单井日产气量 104m3*/
+    ncyl Double, /**年产油量 104t*/
+    ncql Double, /**年产气量 104m3*/
+    ncsl Double, /**年产水量 104m3*/
+    nzsl Double, /**年注水量 104m3*/
+    lcyl Double, /**累产油量 104m3*/
+    lcql Double, /**累产气量 104m3*/
+    lcsl Double, /**累产水量 104m3*/
+    ndjl Double, /**年递减率 %*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+*F_AJCL19/经济参数表
+*/
+entity FAjcl19 {
+    ny String, /**年月*/
+    qk String, /**区块*/
+    cw String, /**层位*/
+    xm String, /**项目*/
+    dw String, /**单位*/
+    sz String, /**数值*/
+    bz String, /**备注*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+*F_AJCL20/经济参数表
+*/
+entity FAjcl20 {
+    ny String, /**年月*/
+    qk String, /**区块*/
+    cw String, /**层位*/
+    ck String, /**层块*/
+    nd Integer, /**年度*/
+    zjs Integer, /**总井数 double, 口*/
+    djjs Integer, /**单井井深 double, m*/
+    jc Integer, /**进尺 double,m*/
+    cb Integer, /**成本 double,元/m*/
+    jdmgctz Integer, /**每口井地面建设工程投资 double, 万元/井*/
+    kfjtz Integer, /**开发井投资*/
+    dmgctz Integer, /**地面建设工程投资*/
+    ldzj Integer, /**流动资金*/
+    ztz Integer, /**总投资*/
+    ljzcjz Integer, /**老井资产净值 double, /**万元*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+*F_AJCL21/生产成本和费用预测表
+*/
+entity FAjcl21 {
+    ny String, /**年月*/
+    qk String, /**区块*/
+    cw String, /**层位*/
+    xh String, /**序号*/
+    xm String, /**项目*/
+    hj Integer, /**合计*/
+    nd1 Integer, /**年度加1：2022年*/
+    nd2 Integer, /**年度加2：2023年*/
+    nd3 Integer, /**年度加3：2024年*/
+    nd4 Integer, /**年度加4：2025年*/
+    nd5 Integer, /**年度加5：2026年*/
+    nd6 Integer, /**年度加6：2027年*/
+    nd7 Integer, /**年度加7：2028年*/
+    nd8 Integer, /**年度加8：2029年*/
+    nd9 Integer, /**年度加9：2030年*/
+    nd10 Integer, /**年度加10：2031年*/
+    nd11 Integer, /**年度加11：2032年*/
+    nd12 Integer, /**年度加12：2033年*/
+    nd13 Integer, /**年度加13：2034年*/
+    nd14 Integer, /**年度加14：2035年*/
+    nd15 Integer, /**年度加15：2036年*/
+    nd16 Integer, /**年度加16：2037年*/
+    nd17 Integer, /**年度加17：2038年*/
+    nd18 Integer, /**年度加18：2039年*/
+    nd19 Integer, /**年度加19：2040年*/
+    nd20 Integer, /**年度加20：2041年*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+*F_AJCL22/石油(天然气)收入、税费估算表
+*/
+entity FAjcl22 {
+    ny String, /**年月*/
+    qk String, /**区块*/
+    cw String, /**层位*/
+    xh String, /**序号*/
+    xm String, /**项目*/
+    hj Integer, /**合计*/
+    nd1 Integer, /**年度加1：2022年*/
+    nd2 Integer, /**年度加2：2023年*/
+    nd3 Integer, /**年度加3：2024年*/
+    nd4 Integer, /**年度加4：2025年*/
+    nd5 Integer, /**年度加5：2026年*/
+    nd6 Integer, /**年度加6：2027年*/
+    nd7 Integer, /**年度加7：2028年*/
+    nd8 Integer, /**年度加8：2029年*/
+    nd9 Integer, /**年度加9：2030年*/
+    nd10 Integer, /**年度加10：2031年*/
+    nd11 Integer, /**年度加11：2032年*/
+    nd12 Integer, /**年度加12：2033年*/
+    nd13 Integer, /**年度加13：2034年*/
+    nd14 Integer, /**年度加14：2035年*/
+    nd15 Integer, /**年度加15：2036年*/
+    nd16 Integer, /**年度加16：2037年*/
+    nd17 Integer, /**年度加17：2038年*/
+    nd18 Integer, /**年度加18：2039年*/
+    nd19 Integer, /**年度加19：2040年*/
+    nd20 Integer, /**年度加20：2041年*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+*F_AJCL23/石油探明储量数据表
+*/
+entity FAjcl23 {
+    ny String, /**年月*/
+    qk String, /**区块*/
+    cw String, /**层位*/
+    clzt String, /**储量状态*/
+    kfzt String, /**开发状态*/
+    hyqmj Double, /**含油面积 平方千米*/
+    yxhd Double, /**有效厚度 米*/
+    yxkxd Double, /**有效孔隙度 %*/
+    kqstl Double, /**空气渗透率 毫达西*/
+    hybhd Double, /**含油饱和度 %*/
+    tjxs Double, /**体积系数*/
+    qyb Double, /**气油比 立方米/立方米*/
+    yymd Double, /**原油密度 吨/立方米*/
+    yDzclWd Double, /**地质储量_万吨*/
+    yDzclWf Double, /**地质储量_万方*/
+    yCsl Double, /**采收率*/
+    yJskcWd Double, /**技术可采_万吨*/
+    yJskcWf Double, /**技术可采_万方*/
+    yJjkcWd Double, /**经济可采_万吨*/
+    yJjkcWf Double, /**经济可采_万方*/
+    yLjclWd Double, /**累计产量 _万吨*/
+    yLjclWf Double, /**累计产量 _万方*/
+    ySyjjkcWd Double, /**剩余经济可采储量 万吨*/
+    ySyjjkcWf Double, /**剩余经济可采储量 万方*/
+    qDzcl Double, /**溶解气_地质储量 亿方*/
+    qCsl Double, /**溶解气_采收率 %*/
+    qJskccl Double, /**溶解气_技术可采储量 亿方*/
+    qJjkccl Double, /**溶解气_经济可采储量 亿方*/
+    qLjcl Double, /**溶解气_累计产量 亿方*/
+    qSyjjkccl Double, /**溶解气_剩余经济可采储量 亿方*/
+    kyq1 String, /**矿业权1*/
+    kyq2 String, /**矿业权2*/
+    sf String, /**省份(海域）*/
+    jckckcqy String, /**自然保护区（禁止勘察开采区域）*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+*F_AJCL24/探明储量综合评价表
+*/
+entity FAjcl24 {
+    ny String, /**年月*/
+    yqt String, /**油(气)田*/
+    qk String, /**区块*/
+    cw String, /**层位*/
+    hyqmj Double, /**含油气面积 km2*/
+    clgmGm Double, /**储量规模_规模 104m3  108m3*/
+    clgmFl String, /**储量规模_分类*/
+    clfdFd Double, /**储量丰度_丰度 104m3/km2  108m3/km2*/
+    clfdFl String, /**储量丰度_分类*/
+    cnDbjh String, /**产能_代表井号*/
+    cnRcl Double, /**产能_日产量  m3/d  104m3/d*/
+    cnQmjsrcl Double, /**产能_千米井深日产量*/
+    cnFl String, /**产能_分类*/
+    msZbsd Double, /**埋藏深度_中部深度m*/
+    msFl String, /**埋藏深度_分类*/
+    ccwxYx String, /**储层物性_岩性*/
+    ccwxKxd Double, /**储层物性_孔隙度%*/
+    ccwxStl Double, /**储层物性_渗透率md*/
+    ccwxFl String, /**储层物性_分类*/
+    yYymd Double, /**原油性质_原油密度t/m3*/
+    yDcyyld Double, /**原油性质_地层原油粘度mpa.s*/
+    yNgd Double, /**原油性质_凝固点℃*/
+    yHll Double, /**原油性质_含硫量%*/
+    yFl String, /**原油性质_分类*/
+    qLhqhl Double, /**天然气性质_硫化氢含量%*/
+    qNxyhl Double, /**天然气性质_凝析油含量%*/
+    qEyhthl Double, /**天然气性质_二氧化碳含量%*/
+    qFl String, /**天然气性质_分类*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+*F_FCFA/分层方案表
+*/
+entity FFcfa {
+    ny String, /**年月*/
+    yqt String, /**油(气)田*/
+    qk String, /**区块*/
+    xh Integer, /**序号*/
+    fcfa String, /**分层方案*/
+    jmc String, /**界名称*/
+    xmc String, /**系名称*/
+    tmc String, /**统名称*/
+    qmc String, /**群名称*/
+    zmc String, /**组名称*/
+    dmc String, /**段名称*/
+    sczmc String, /**砂层组名称*/
+    scmc String, /**砂层名称*/
+    dcmc String, /**单层名称*/
+    cwdm String, /**层位代码*/
+    yxyxjs String, /**岩性岩相简述*/
+    bz String/**备注*/
+
+}
+
+/**
+*F_FCFADJ/单井分层数据表
+*/
+entity FFcfaDj {
+ny String, /**年月*/
+    yqt String, /**油(气)田*/
+    qk String, /**区块*/
+    jh String, /**井号*/
+    cwdm String, /**层位代码*/
+    dcmc String, /**地层名称*/
+    djsd Double, /**底界深度*/
+    hd Double, /**厚度*/
+    jcgx String/**接触关系*/
+
+}
+
+/**
+*F_AJCL16_1/天然气组分分析及偏差系数计算表
+*/
+entity FAjcl161 {
+    ny String, /**年月*/
+    qk String, /**区块*/
+    jh String, /**井号*/
+    cw String, /**层位*/
+    qcz String, /**气层组*/
+    cxh String, /**层号*/
+    qysd Double, /**取样深度|m*/
+    trqxdmd Double, /**天然气相对密度*/
+    jw Double, /**天然气组分摩尔分量（f）|甲烷*/
+    yw Double, /**天然气组分摩尔分量（f）|乙烷*/
+    bw Double, /**天然气组分摩尔分量（f）|丙烷*/
+    ydw Double, /**天然气组分摩尔分量（f）|丁烷*/
+    zdw Double, /**天然气组分摩尔分量（f）|戊烷*/
+    h Double, /**天然气组分摩尔分量（f）|氦气*/
+    d Double, /**天然气组分摩尔分量（f）|氮气*/
+    eyht Double, /**天然气组分摩尔分量（f）|二氧化碳*/
+    lhq Double, /**天然气组分摩尔分量（f）|硫化氢*/
+    ljwd Double, /**拟临界温度|k*/
+    ljyl Double, /**拟临界压力|mpa*/
+    dbwd Double, /**拟对比温度|k*/
+    dbyl Double, /**拟对比压力|mpa*/
+    pcxs Double, /**偏差系数*/
+    bz String, /**备注*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+*F_AJCL23_1/天然气探明储量数据表
+*/
+entity FAjcl231 {
+    ny String, /**年月*/
+    qk String, /**区块*/
+    cw String, /**层位*/
+    clzt String, /**储量状态*/
+    kfzt String, /**开发状态*/
+    hyqmj Double, /**含油面积|km2*/
+    yxhd Double, /**有效厚度|米*/
+    yxkxd Double, /**有效孔隙度|%*/
+    kqstl Double, /**空气渗透率|md*/
+    hybhd Double, /**含气饱和度|%*/
+    tjxs Double, /**体积系数*/
+    qDzcl Double, /**天然气|合计|地质储量|108m3*/
+    qCsl Double, /**天然气|合计|采收率|%*/
+    qJskccl Double, /**天然气|合计|技术可采储量|108m3*/
+    qJjkccl Double, /**天然气|合计|经济可采储量|108m3*/
+    qLjcl Double, /**天然气|合计|累计产量|108m3*/
+    qSyjjkccl Double, /**天然气|合计|剩余经济可采储量|108m3*/
+    qQlDzcl Double, /**天然气|烃类|地质储量|108m3*/
+    qQlCsl Double, /**天然气|烃类|采收率|%*/
+    qQlJskccl Double, /**天然气|烃类|技术可采储量|108m3*/
+    qQlJjkccl Double, /**天然气|烃类|经济可采储量|108m3*/
+    qQlLjcl Double, /**天然气|烃类|累计产量|108m3*/
+    qQlSyjjkccl Double, /**天然气|烃类|剩余经济可采储量|108m3*/
+    qCo2Dzcl Double, /**天然气|二氧化碳/硫化氢/硫磺/氦气|地质储量|108m3*/
+    qCo2Csl Double, /**天然气|二氧化碳/硫化氢/硫磺/氦气|采收率|%*/
+    qCo2Jskccl Double, /**天然气|二氧化碳/硫化氢/硫磺/氦气|技术可采储量|108m3*/
+    qCo2Jjkccl Double, /**天然气|二氧化碳/硫化氢/硫磺/氦气|经济可采储量|108m3*/
+    qCo2Ljcl Double, /**天然气|二氧化碳/硫化氢/硫磺/氦气|累计产量|108m3*/
+    qCo2Syjjkccl Double, /**天然气|二氧化碳/硫化氢/硫磺/氦气|剩余经济可采储量|108m3*/
+    yDzclWd Double, /**凝析油|地质储量|104t*/
+    yDzclWf Double, /**凝析油|地质储量|104m3*/
+    yCsl Double, /**凝析油|采收率|%*/
+    yJskcWd Double, /**凝析油|技术可采储量|104t*/
+    yJskcWf Double, /**凝析油|技术可采储量|104m3*/
+    yJjkcWd Double, /**凝析油|经济可采储量|104t*/
+    yJjkcWf Double, /**凝析油|经济可采储量|104m3*/
+    yLjclWd Double, /**凝析油|累计产量|104t*/
+    yLjclWf Double, /**凝析油|累计产量|104m3*/
+    ySyjjkcWd Double, /**凝析油|剩余经济可采储量|104t*/
+    ySyjjkcWf Double, /**凝析油|剩余经济可采储量|104m3*/
+    kyq1 String, /**矿业权1*/
+    kyq2 String, /**矿业权2*/
+    sf String, /**省份(海域）*/
+    jckckcqy String, /**禁止勘察开采区域/自然保护区*/
+    zbr String,	/**制表人*/
+    cjsj LocalDate, /**创建时间*/
+    shr	 String, /**审核人*/
+    shsj LocalDate,/**审核时间*/
+    yqt String	/**油气田名称*/
+}
+
+/**
+ * 已有储量和申报储量表
+ * @author liwanchao
+ */
+entity CAjcl01 {
+	ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 区块 */
+    cw String, /** 层位 */
+    clzt String, /** 储量状态 */
+    kfzt String, /** 开发状态 */
+    hyqmj String, /** 含油面积 平方千米 */
+    yDzclWd Double, /** 地质储量_万吨 */
+    yDzclWF Double, /** 地质储量_万方 */
+    qDzcl Double, /** 溶解气_地质储量 亿方 */
+    qDzcl2 Double, /** 地质储量_凝析气 亿方 */
+    yJskcWd Double, /** 技术可采_万吨 */
+    yJskcWf Double, /** 技术可采_万方 */
+    qJskccl Double, /** 溶解气_技术可采储量 亿方 */
+    yJjkcWd Double, /** 经济可采_万吨 */
+    yJjkcWf Double, /** 经济可采_万方 */
+    qJjkccl Double, /** 溶解气_经济可采储量 亿方 */
+    yLjclWd Double, /** 累计产量 _万吨 */
+    yLjclWf Double, /** 累计产量 _万方 */
+    qLjcl Double, /** 溶解气_累计产量 亿方 */
+    ySyjjkcWd Double, /** 剩余经济可采储量 万吨 */
+    ySyjjkcWf Double, /** 剩余经济可采储量 万方 */
+    qSyjjkccl Double, /** 溶解气_剩余经济可采储量 亿方 */
+    kyq1 String, /** 矿业权1 */
+    kyq2 String, /** 矿业权2 */
+    sf String, /** 省份(海域） */
+    jckckcqy String /** 自然保护区（禁止勘察开采区域） */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 地层简表
+ * @author liwanchao
+ */
+entity CAjcl02 {
+	ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 区块 */
+    jmc String, /** 界名称 */
+    xmc String, /** 系名称 */
+    tmc String, /** 统名称 */
+    zmc String, /** 组名称 */
+    dmc String, /** 段名称 */
+    cwdm String, /** 层位代码 */
+    hd1 Double, /** 厚度1 */
+    hd2 Double, /** 厚度2 */
+    yxyxjs String, /** 岩性岩相简述 */
+    bz String /** 备注 */
+}
+
+/**
+ * 圈闭要素表
+ * @author liwanchao
+ */
+entity CAjcl03 {
+	ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 区块 */
+    jq String, /** 井区 */
+    cw String, /** 层位 */
+    qblx String, /** 圈闭类型 */
+    gdhb Double, /** 高点海拔|m */
+    bhx Double, /** 闭合线|m */
+    bhgd Double, /** 闭合高度|m */
+    bhmj Double, /** 闭合面积|km2 */
+    dcqj String, /** 地层倾角|。 */
+    gzzx String, /** 构造走向 */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 断裂要素表
+ * @author liwanchao
+ */
+entity CAjcl04 {
+	ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 区块 */
+    dljb String, /** 断裂级别 */
+    dlxh Integer, /** 断裂序号 */
+    dlmc String, /** 断裂名称 */
+    dlxz String, /** 断裂性质 */
+    dkcw String, /** 断开层位 */
+    mdcdj String, /** 目的层断距|m */
+    dlzx String, /** 断裂产状|走向 */
+    dlqx String, /** 断裂产状|倾向 */
+    dlqj String, /** 断裂产状|倾角 */
+    dlyscd Double, /** 断裂产状|延伸长度km */
+    dyjh String, /** 钻遇井号 */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 油气层综合表
+ * @author liwanchao
+ */
+entity CAjcl05 {
+	ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 区块 */
+	cwycz String, /** 层位|油层组 */
+    cwscz String, /** 层位|砂层组 */
+    cwd String, /** 层位|段 */
+    cwxc String, /** 层位|小层 */
+    cwdh String, /** 层位代号 */
+    cgzh String, /** 储盖组合 */
+    yqcw String, /** 油气层位 */
+    dchd String, /** 地层厚度|m */
+    cghd String, /** 储、盖层厚度|m */
+    yxyx String, /** 岩性岩相 */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 储层综合评价表
+ * @author liwanchao
+ */
+entity CAjcl06 {
+	ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 区块 */
+	dchd String, /** 地层厚度|m */
+    cchd String, /** 储层厚度|m */
+    ccyx String, /** 储层岩性 */
+    cdx String, /** 沉积相 */
+    cjkjlx String, /** 储集空间类型 */
+    cckxd Double, /** 储层物性|孔隙度% */
+    ccstl Double, /** 储层物性|渗透率mD */
+    ccfl String, /** 储层分类 */
+    fjzx String, /** 非均质性 */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 油藏参数表
+ * @author liwanchao
+ */
+entity CAjcl07 {
+	ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 区块 */
+    cw String, /** 层位 */
+    yclx String, /** 油(气)藏类型 */
+    qdlx String, /** 驱动类型 */
+    gdms Double, /** 高点埋藏深度|m */
+    hyqgd Double, /** 含油(气)高度|m */
+    zbhb Integer, /** 中部海拔|m */
+    ysdcyl Double, /** 原始地层压力|MPa */
+    ylxs Double, /** 压力系数 */
+    bhyl Double, /** 饱和压力|MPa */
+    dbyc Double, /** 地饱压差|MPa */
+    bhcd Double, /** 饱和程度|% */
+    dcwd Double, /** 地层温度|℃ */
+    dwtd Double, /** 地温梯度|℃/100m */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 探明储量计算单元划分表
+ * @author liwanchao
+ */
+entity CAjcl08 {
+	ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    xh Integer, /** 序号 */
+    qk String, /** 平面单元|区块 */
+    jq String, /** 平面单元|井区 */
+    cw String, /** 纵向单元|层位 */
+    yqcz String, /** 纵向单元|油气层组 */
+    jsdy String, /** 计算单元 */
+    kq String, /** 矿业权 */
+    yqlx String, /** 油气类型 */
+    cllb String, /** 储量类别 */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 油（气）水界面确定依据表
+ * @author liwanchao
+ */
+entity CAjcl09 {
+	ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 计算单元|区块 */
+    cw String, /** 计算单元|层位 */
+    yqclx String, /** 油（气）藏类型 */
+    syyz Double, /** 油（气）水界面深度/m|试油验证 */
+    ylcs Double, /** 油（气）水界面深度/m|压力测试 */
+    cjjsDs Double, /** 油（气）水界面深度/m|测井解释油（气）层|底深 */
+    cjjsJm Double, /** 油（气）水界面深度/m|测井解释油（气）水|界面 */
+    mgyl Double, /** 油（气）水界面深度/m|毛管压力 */
+    qt Double, /** 油（气）水界面深度/m|其它 */
+    xz Double, /** 油（气）水界面深度/m|选值 */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 含油（气）面积圈定依据表
+ * @author liwanchao
+ */
+entity CAjcl10 {
+	ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 计算单元|区块 */
+    cw String, /** 计算单元|层位 */
+    hymj Double, /** 含油面积|km2 */
+    zjs Integer, /** 总井数|口 */
+    bjwz String, /** 边界位置 */
+    bjzl String, /** 边界种类 */
+    hyqbjdyj String, /** 含油（气）边界确定依据*/
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 油（气）层有效厚度下限标准表
+ * @author liwanchao
+ */
+entity CAjcl11 {
+	ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 区块 */
+    cw String, /** 层位 */
+    yqclb String, /** 油（气）层类别 */
+    yx String, /** 岩性|岩性 */
+    nzhl String, /** 岩性|泥质含量% */
+    ldzz String, /** 岩性|粒度中值mm */
+    kxd String, /** 物性|孔隙度% */
+    stl String, /** 物性|渗透率mD */
+    hybhd String, /** 含油性|含油饱和度% */
+    hyjb String, /** 含油性|含油级别 */
+    dzl String, /** 电性|电阻率Ω·m */
+    md String, /** 电性|密度g/cm3 */
+    sbsc String, /** 电性|声波时差us/ft */
+    qtcs String, /** 电性|其他参数 */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 有效厚度取值依据表
+ * @author liwanchao
+ */
+entity CAjcl12 {	
+    ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 计算单元|区块 */
+    cw String, /** 计算单元|层位 */
+    hymj Double, /** 含油面积|km2 */
+    ycjs Integer, /** 油层井数|口 */
+    hdFw String, /** 单井有效厚度分布范围|m */
+    hdPj Double, /** 平均有效厚度m|算术平均 */
+    hdDjmj Double, /** 平均有效厚度m|单井面积权衡 */
+    hdDzxmj Double, /** 平均有效厚度m|等值线面积权衡 */
+    hdQz Double, /** 平均有效厚度m|取值 */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 有效孔隙度取值依据表
+ * @author liwanchao
+ */
+entity CAjcl13 {	
+    ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 计算单元|区块 */
+    cw String, /** 计算单元|层位 */
+    js Integer, /** 岩心分析|井数|口 */
+    yps Integer, /** 岩心分析|样品数|块 */
+    kxdFw String, /** 岩心分析|孔隙度|分布范围 */
+    kxdDmpj Double, /** 岩心分析|孔隙度|平均值|地面 */
+    kxdDxpj Double, /** 岩心分析|孔隙度|平均值|地下 */
+    cjJs Integer, /** 测井解释|井数口 */
+    cjCs Integer, /** 测井解释|层数层 */
+    cjKsdFw String, /** 测井解释|孔隙度|单井孔隙度分布范围 */
+    cjKsdJd Double, /** 测井解释|孔隙度|井点算数平均 */
+    cjKsdDjkz Double, /** 测井解释|孔隙度|单井控制油层体积权衡 */
+    cjKxdDzxmj Double, /** 测井解释|孔隙度|等值线面积权衡 */
+    kxdDmqz Double, /** 孔隙度取值|地面 */
+    kxdDxqz Double, /** 孔隙度取值|地下 */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 原始含油（气）饱和度取值依据表
+ * @author liwanchao
+ */
+entity CAjcl14 {	
+    ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 计算单元|区块 */
+    cw String, /** 计算单元|层位 */
+    js Integer, /** 油基（密闭）取心|井数|口 */
+    yps Integer, /** 油基（密闭）取心|样品数|块 */
+    bhdFw String, /** 油基（密闭）取心|饱和度|分布范围 */
+    bhdPj Double, /** 油基（密闭）取心|饱和度|平均值 */
+    cjJs Integer, /** 测井解释|井数|口 */
+    cjCs Integer, /** 测井解释|层数|层 */
+    bhdDjfw String, /** 测井解释|饱和度|单井饱和度分布范围 */
+    bhdJdpj  Double, /** 测井解释|饱和度|井点算数平均 */
+    bhdDjkz Double, /** 测井解释|饱和度|单井控制油层孔隙体积权衡 */
+    bhdDzxmj Double, /** 测井解释|饱和度|等值线面积权衡 */
+    qtMgyl Double, /** 其他方法确定饱和度|毛管压力方法 */
+    qtXs Double, /** 其他方法确定饱和度|相渗方法 */
+    qtJygs Double, /** 其他方法确定饱和度|经验公式 */
+    qtQt Double, /** 其他方法确定饱和度|其他 */
+    hybhd Double, /** 含油饱和度取值 */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 原始原油体积系数选值依据表
+ * @author liwanchao
+ */
+entity CAjcl15 {	
+    ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 计算单元|区块 */
+    cw String, /** 计算单元|层位 */
+    js Integer, /** 高压物性|井数口 */
+    yps Integer, /** 高压物性|样品数个 */
+    tjxsFw String, /** 高压物性|原油体积系数|分布范围 */
+    tjxsPj Double, /** 高压物性|原油体积系数|算术平均值 */
+    tjxsZs Double, /** 高压物性|原油体积系数|中深对应值 */
+    tjxsJygs Double, /** 其他方法|原油体积系数|经验公式 */
+    tjxsLb Double, /** 其他方法|原油体积系数|类比 */
+    tjxsQzyj Double, /** 原油体积系数|取值依据 */
+    tjxsQz Double, /** 原油体积系数|取值 */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 原始天然气体积系数、气体摩尔分量选值依据表
+ * @author liwanchao
+ */
+entity CAjcl16 {	
+    ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 计算单元|区块 */
+    cw String, /** 计算单元|层位 */
+    dcwd Double, /** 地层温度|K */
+    dcyl Double, /** 地层压力|MPa */
+    sljwd Double, /** 拟临界温度|K */
+    sljyl Double, /** 拟临界压力|MPa */
+    sdbwd Double, /** 拟对比温度|K */
+    sdbyl Double, /** 拟对比压力|MPa */
+    pcxsXdmd Double, /** 气体偏差系数|相对密度法 */
+    pcxsJygs Double, /** 气体偏差系数|经验公式法 */
+    pcxsXtf Double, /** 气体偏差系数|相态法 */
+    pcxsXz Double, /** 气体偏差系数|选值 */
+    tjxsXdmd Double, /** 体积系数|相对密度法 */
+    tjxsJygs Double, /** 体积系数|经验公式法 */
+    tjxsXtf Double, /** 体积系数|相态法 */
+    tjxsXz Double, /** 体积系数|选值 */
+    mrflJsz Double, /** 气体摩尔分量|计算值 */
+    mrflXz Double, /** 气体摩尔分量|选值 */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 原始溶解（凝析）气油比选值依据表
+ * @author liwanchao
+ */
+entity CAjcl17 {	
+    ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 计算单元|区块 */
+    cw String, /** 计算单元|层位 */
+    gywxJs Integer, /** 高压物性分析|井数|口 */
+    gywxYps Integer, /** 高压物性分析|样品数|个 */
+    qybFw String, /** 高压物性分析|气油比|分布范围 */
+    qybPj Double, /** 高压物性分析|气油比|平均值 */
+    sczlJs Integer, /** 生产资料|井数|口 */
+    sczlZls Integer, /** 生产资料|资料数|个 */
+    sczlQybFw String, /** 生产资料|气油比|分布范围 */
+    sczlQybPj Integer, /** 生产资料|气油比|平均值 */
+    qtNh Integer, /** 其它方法|气油比|拟合 */
+    qtJygs Integer, /** 其它方法|气油比|经验公式 */
+    qtLb Integer, /** 其它方法|气油比|类比 */
+    qz Integer, /** 取值 */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 原油密度选值依据表
+ * @author liwanchao
+ */
+entity CAjcl18 {	
+    ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 区块 */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 采收率选值依据表
+ * @author liwanchao
+ */
+entity CAjcl19 {	
+    ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 区块 */
+    cw String, /** 层位 */
+    lbf Double, /** 类比法 */
+    jygs1 Double, /** 采收率% |经验公式法|公式1 */
+    jygs2 Double, /** 采收率% |经验公式法|公式2 */
+    jygs3 Double, /** 采收率% |经验公式法|公式3 */
+    jygs4 Double, /** 采收率% |经验公式法|公式4 */
+    qtSc String, /** 采收率% |其他方法|试采法 */
+    qtDj Double, /** 采收率% |其他方法|递减法 */
+    qz Double, /** 采收率% |其他方法|取值 */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 石油（天然气）探明地质储量与技术可采储量数据表
+ * @author liwanchao
+ */
+entity CAjcl20 {	
+    ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 计算单元|区块 */
+    cw String, /** 计算单元|层位 */
+    yqcz String, /** 计算单元|油（气）层组 */
+    kfzt String, /** 开发状态 */
+    hyqmj Double, /** 储量参数|含油面积|km2 */
+    yxhd Double, /** 储量参数|有效厚度m */
+    yxkxd Double, /** 储量参数|有效孔隙度f */
+    hybhd Double, /** 储量参数|含油饱和度 */
+    tjxs Double, /** 储量参数|原始原油体积系数|无因次 */
+    yymd Double, /** 储量参数|地面原油密度|t/m3 */
+    yDzclWd Double, /** 石油地质储量|104t */
+    yDzclWf Double, /** 石油地质储量|104m3 */
+    rjqyb Integer, /** 原始溶解气油比|m3/m3 */
+    qDzcl Double, /** 溶解气地质储量|108m3 */
+    yCsl Double, /** 采收率|f-原油（凝析油） */
+    yCsl2 Double, /** 采收率|f-溶解气（气层气） */
+    yJskcWd Double, /** 技术可采储量|石油|104t */
+    yJskcWf Double, /** 技术可采储量|石油|104m3 */
+    qJskccl Double, /** 技术可采储量|溶解气|108m3 */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 探明储量损益表
+ * @author liwanchao
+ */
+entity CAjcl21 {	
+    ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 区块 */
+    cw String, /** 层位 */
+    nd String, /** 年度 */
+    ncyl Double, /** 年产油量|104t */
+    ncql Double, /** 年产气量|104m3 */
+    xssr Integer, /** 销售收入|万元 */
+    sccb Integer, /** 生产成本费用|万元 */
+    sjjfj Integer, /** 销售税金及附加|万元 */
+    sqlr Integer, /** 税前利润|万元 */
+    sds Integer, /** 所得税|万元 */
+    shlr Integer, /** 税后利润|万元 */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 探明储量现金流量表
+ * @author liwanchao
+ */
+entity CAjcl22 {	
+    ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 区块 */
+    cw String, /** 层位 */
+    nd String, /** 年度 */
+    fl String, /** 分类（建设/生产） */
+    xjlr Integer, /** 现金流入 */
+    xssr Integer, /** 销售收入 */
+    xxse Integer, /** 销项税额 */
+    hsldzj Integer, /** 回收流动资金 */
+    xjlc Integer, /** 现金流出 */
+    lyljjzc Integer, /** 利用老井净资产 */
+    jstz Integer, /** 建设投资 */
+    ldzj Integer, /** 流动资金 */
+    jycbhfy Integer, /** 经营成本和费用 */
+    cbjxse Integer, /** 成本进项税额 */
+    zzs Integer, /** 增值税 */
+    xssj Integer, /** 销售税金及附加 */
+    qzfy Integer, /** 弃置费用 */
+    sqjxjll Integer, /** 所得税前净现金流量 */
+    sqjxjlllj Integer, /** 累计税前净现金流量 */
+    tzsds Integer, /** 调整所得税 */
+    shjxjll Integer, /** 所得税后净现金流量 */
+    shjxjlllj Integer, /** 累计税后净现金流量 */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 石油（天然气）探明可采储量数据表
+ * @author liwanchao
+ */
+entity CAjcl23 {	
+    ny String, /** 年月 */
+    yqt String, /** 油气田 */
+    qk String, /** 区块 */
+    cw String, /** 层位 */
+    kfzt String, /** 开发状态 */
+    yJskcWd Double, /** 技术可采_万吨 */
+    yJskcWF Double, /** 技术可采_万方 */
+    qJskccl Double, /** 溶解气_技术可采储量 亿方 */
+    yJjkcWd Double, /** 经济可采_万吨 */
+    yJjkcWf Double, /** 经济可采_万方 */
+    qJjkccl Double, /** 溶解气_经济可采储量 亿方 */
+    yLjclWd Double, /** 累计产量 _万吨 */
+    yLjclWf Double, /** 累计产量 _万方 */
+    qLjcl Double, /** 溶解气_累计产量 亿方 */
+    ySyjjkcWd Double, /** 剩余经济可采储量 万吨 */
+    ySyjjkcWf Double, /** 剩余经济可采储量 万方 */
+    qSyjjkccl Double, /** 溶解气_剩余经济可采储量 亿方 */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+/**
+ * 原油密度选值依据表
+ * @author liwanchao
+ */
+entity CAjcl081 {	
+    ny String, /** 年月 */
+    ycms String, /** 油气藏埋藏深度（m） */
+    lsYdjrclxx Double, /** 陆上|石油单井日产量下限（m3/d） */
+    lsQdjrclxx Double, /** 陆上|天然气单井日产量下限（104m3/d） */
+    hsYdjrclxx Double, /** 海上|石油单井日产量下限（m3/d） */
+    hsQdjrclxx Double, /** 海上|天然气单井日产量下限（104m3/d） */
+    zbr String, /** 制表人 */
+    cjsj LocalDate, /** 创建时间 */
+    shr String, /** 审核人 */
+    shsj LocalDate /** 审核时间 */
+}
+
+paginate
+  FAjcl01, FAjcl02, FAjcl03, FAjcl04, FAjcl05,
+  FAjcl06, FAjcl07, FAjcl08, FAjcl09, FAjcl10,
+  FAjcl11, FAjcl12, FAjcl13, FAjcl14, FAjcl15,
+  FAjcl16, FAjcl17, FAjcl18, FAjcl19, FAjcl20,
+  FAjcl21, FAjcl22, FAjcl23, FAjcl24, FFcfa,
+  FFcfaDj, FAjcl161, FAjcl231,
+  CAjcl01, CAjcl02, CAjcl03, CAjcl04,
+  CAjcl05, CAjcl06, CAjcl07, CAjcl08,
+  CAjcl09, CAjcl10, CAjcl11, CAjcl12,
+  CAjcl13, CAjcl14, CAjcl15, CAjcl16,
+  CAjcl17, CAjcl18, CAjcl19, CAjcl20,
+  CAjcl21, CAjcl22, CAjcl23, CAjcl081
+with pagination
+
+service all with serviceImpl
+
